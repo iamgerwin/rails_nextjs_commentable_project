@@ -1,0 +1,3 @@
+# Nx ignore patterns
+# Ignore the my-app directory inside apps/web to prevent conflicts
+apps/web/my-app

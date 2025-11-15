@@ -174,8 +174,8 @@ start_web() {
     print_info "Starting Next.js web on port 4200..."
 
     if [ -d "apps/web" ]; then
-        # Use Nx to serve the web app
-        npx nx serve web
+        # Use Nx to run the dev target with custom port
+        PORT=4200 npx nx dev web
     else
         print_error "Next.js web not found at apps/web"
         exit 1
@@ -213,7 +213,7 @@ EOF
 
         # Window 1: Next.js Web
         tmux new-window -t rails_nextjs_app:1 -n 'Next.js Web'
-        tmux send-keys -t rails_nextjs_app:1 "npx nx serve web" C-m
+        tmux send-keys -t rails_nextjs_app:1 "PORT=4200 npx nx dev web" C-m
 
         # Window 2: Sidekiq (if Redis available)
         if command_exists redis-cli && redis-cli ping > /dev/null 2>&1; then
@@ -250,7 +250,7 @@ EOF
         (cd apps/api && bundle exec rails server -p 3000) &
         API_PID=$!
 
-        (npx nx serve web) &
+        (PORT=4200 npx nx dev web) &
         WEB_PID=$!
 
         # Start Sidekiq if Redis is available
