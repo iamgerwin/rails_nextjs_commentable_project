@@ -68,12 +68,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await authService.login({ email, password });
 
       if (!response.success || !response.data) {
-        throw new Error(response.error?.message || 'Login failed');
+        return response;
       }
 
       const { user, tokens } = response.data;
       TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
       setUser(user);
+
+      return response;
     } finally {
       setIsLoading(false);
     }
@@ -86,12 +88,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await authService.register(data);
 
       if (!response.success || !response.data) {
-        throw new Error(response.error?.message || 'Registration failed');
+        return response;
       }
 
       const { user, tokens } = response.data;
       TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
       setUser(user);
+
+      return response;
     } finally {
       setIsLoading(false);
     }
