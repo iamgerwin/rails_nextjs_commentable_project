@@ -4,8 +4,8 @@ module Api
   module V1
     # Authentication controller for user registration, login, and token management
     # Handles JWT token generation and refresh
+    # Note: Auth actions don't require authentication
     class AuthController < BaseController
-      skip_before_action :authenticate_user!, only: [:register, :login, :refresh]
 
       # POST /api/v1/auth/register
       # Register a new user
