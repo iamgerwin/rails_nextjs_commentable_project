@@ -10,13 +10,14 @@ module Api
       # POST /api/v1/auth/register
       # Register a new user
       def register
+        auth_params = params[:auth] || params
         result = Users::RegisterAction.call(
-          email: params[:email],
-          username: params[:username],
-          password: params[:password],
-          password_confirmation: params[:password_confirmation],
-          first_name: params[:first_name],
-          last_name: params[:last_name]
+          email: auth_params[:email],
+          username: auth_params[:username],
+          password: auth_params[:password],
+          password_confirmation: auth_params[:password_confirmation],
+          first_name: auth_params[:first_name],
+          last_name: auth_params[:last_name]
         )
 
         if result.success?
@@ -39,9 +40,10 @@ module Api
       # POST /api/v1/auth/login
       # Authenticate user and return tokens
       def login
+        auth_params = params[:auth] || params
         result = Users::LoginAction.call(
-          email: params[:email],
-          password: params[:password],
+          email: auth_params[:email],
+          password: auth_params[:password],
           ip_address: request.remote_ip
         )
 
