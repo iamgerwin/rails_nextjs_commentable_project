@@ -10,9 +10,7 @@ module Api
 
       # API versioning is handled via namespace routing
       # This ensures all endpoints are prefixed with /api/v1
-
-      # Disable CSRF protection for API (using JWT tokens instead)
-      skip_before_action :verify_authenticity_token
+      # CSRF protection is not needed for API (using JWT tokens instead)
 
       # Standard error handling for API responses
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
