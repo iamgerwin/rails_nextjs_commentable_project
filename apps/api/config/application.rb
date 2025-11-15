@@ -41,9 +41,6 @@ module Api
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # Add custom middleware
-    config.middleware.use JwtAuthentication
-
     # Autoload paths
     config.autoload_paths += %W[
       #{config.root}/app/actions

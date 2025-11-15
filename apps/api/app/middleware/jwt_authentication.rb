@@ -19,11 +19,11 @@ class JwtAuthentication
 
     if token
       begin
-        # Decode and validate token
-        decoded = JsonWebTokenService.decode(token)
+        # Decode and validate token (lazy load service)
+        decoded = json_web_token_service.decode(token)
 
-        # Find user and set in environment
-        user = User.find_by(id: decoded[:user_id])
+        # Find user and set in environment (lazy load model)
+        user = user_model.find_by(id: decoded[:user_id])
 
         if user && user.status_active?
           env['current_user'] = user
@@ -55,6 +55,14 @@ class JwtAuthentication
   end
 
   private
+
+  def json_web_token_service
+    JsonWebTokenService
+  end
+
+  def user_model
+    User
+  end
 
   def extract_token(env)
     auth_header = env['HTTP_AUTHORIZATION']
