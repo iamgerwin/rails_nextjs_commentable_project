@@ -1,0 +1,33 @@
+{
+  "name": "rails-nextjs-commentable-project",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "./run.sh dev",
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "e2e": "nx run-many --target=e2e --all"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@nx/devkit": "^20.2.2",
+    "@nx/eslint": "^20.2.2",
+    "@nx/js": "^20.2.2",
+    "@nx/next": "^20.2.2",
+    "@nx/playwright": "^20.2.2",
+    "@nx/workspace": "^20.2.2",
+    "nx": "^20.2.2",
+    "prettier": "^3.3.3",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
