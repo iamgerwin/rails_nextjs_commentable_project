@@ -45,49 +45,66 @@ check_prerequisites() {
     fi
 
     if ! command_exists ruby; then
-        missing_deps+=("Ruby (>= 3.3.0)")
+        missing_deps+=("Ruby (>= 3.3.6)")
     fi
 
     if ! command_exists bundle; then
         missing_deps+=("Bundler")
     fi
 
+    # PostgreSQL and Redis are optional for development (using SQLite)
+    # Only warn if not available
     if ! command_exists psql; then
-        missing_deps+=("PostgreSQL (>= 14.0)")
+        print_warning "PostgreSQL not found (optional for production)"
     fi
 
     if ! command_exists redis-cli; then
-        missing_deps+=("Redis (>= 7.0)")
+        print_warning "Redis not found (optional, needed for Sidekiq)"
     fi
 
     if [ ${#missing_deps[@]} -ne 0 ]; then
-        print_error "Missing dependencies:"
+        print_error "Missing required dependencies:"
         for dep in "${missing_deps[@]}"; do
             echo "  - $dep"
         done
         exit 1
     fi
 
-    print_success "All prerequisites met"
+    print_success "All required prerequisites met"
 }
 
 # Function to check if services are running
 check_services() {
-    print_info "Checking services..."
+    print_info "Checking optional services..."
 
-    # Check PostgreSQL
-    if ! pg_isready -q; then
-        print_warning "PostgreSQL is not running. Please start PostgreSQL."
-        return 1
+    local warnings=0
+
+    # Check PostgreSQL (optional for production)
+    if command_exists pg_isready; then
+        if ! pg_isready -q 2>/dev/null; then
+            print_warning "PostgreSQL is not running (optional for production)"
+            warnings=$((warnings + 1))
+        else
+            print_success "PostgreSQL is running"
+        fi
     fi
 
-    # Check Redis
-    if ! redis-cli ping > /dev/null 2>&1; then
-        print_warning "Redis is not running. Please start Redis."
-        return 1
+    # Check Redis (optional for Sidekiq)
+    if command_exists redis-cli; then
+        if ! redis-cli ping > /dev/null 2>&1; then
+            print_warning "Redis is not running (optional for Sidekiq background jobs)"
+            warnings=$((warnings + 1))
+        else
+            print_success "Redis is running"
+        fi
     fi
 
-    print_success "All services are running"
+    if [ $warnings -eq 0 ]; then
+        print_success "All available services are running"
+    else
+        print_info "Development will use SQLite (no PostgreSQL needed)"
+        print_info "Background jobs disabled (no Redis needed)"
+    fi
 }
 
 # Function to install dependencies
@@ -116,7 +133,10 @@ setup_db() {
     if [ -d "apps/api" ]; then
         cd apps/api
 
-        if ! bundle exec rails db:exists 2>/dev/null; then
+        # Check if database exists
+        if bundle exec rails db:version > /dev/null 2>&1; then
+            print_info "Database already exists"
+        else
             print_info "Creating database..."
             bundle exec rails db:create
         fi
@@ -125,12 +145,12 @@ setup_db() {
         bundle exec rails db:migrate
 
         if [ "$1" == "--seed" ]; then
-            print_info "Seeding database..."
+            print_info "Seeding database with sample data..."
             bundle exec rails db:seed
         fi
 
         cd ../..
-        print_success "Database setup complete"
+        print_success "Database setup complete (using SQLite)"
     else
         print_warning "Rails API not found, skipping database setup"
     fi
@@ -154,8 +174,8 @@ start_web() {
     print_info "Starting Next.js web on port 4200..."
 
     if [ -d "apps/web" ]; then
-        cd apps/web
-        npm run dev -- -p 4200
+        # Use Nx to serve the web app
+        npx nx serve web
     else
         print_error "Next.js web not found at apps/web"
         exit 1
@@ -166,47 +186,88 @@ start_web() {
 start_all() {
     print_info "Starting all services..."
 
+    # Check for .env files
+    if [ ! -f "apps/web/.env.local" ]; then
+        print_warning "apps/web/.env.local not found"
+        print_info "Creating .env.local with default values..."
+        cat > apps/web/.env.local << EOF
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_API_VERSION=v1
+EOF
+        print_success "Created apps/web/.env.local"
+    fi
+
     # Check if tmux or screen is available for running multiple processes
     if command_exists tmux; then
         print_info "Using tmux to manage processes..."
 
+        # Kill existing session if it exists
+        tmux kill-session -t rails_nextjs_app 2>/dev/null || true
+
         # Create new tmux session
         tmux new-session -d -s rails_nextjs_app
 
-        # Split window for API
-        tmux send-keys -t rails_nextjs_app "cd apps/api && bundle exec rails server -p 3000" C-m
+        # Window 0: Rails API
+        tmux rename-window -t rails_nextjs_app:0 'Rails API'
+        tmux send-keys -t rails_nextjs_app:0 "cd apps/api && bundle exec rails server -p 3000" C-m
 
-        # Create new window for Web
-        tmux new-window -t rails_nextjs_app
-        tmux send-keys -t rails_nextjs_app "cd apps/web && npm run dev -- -p 4200" C-m
+        # Window 1: Next.js Web
+        tmux new-window -t rails_nextjs_app:1 -n 'Next.js Web'
+        tmux send-keys -t rails_nextjs_app:1 "npx nx serve web" C-m
 
-        # Create new window for Sidekiq
-        tmux new-window -t rails_nextjs_app
-        tmux send-keys -t rails_nextjs_app "cd apps/api && bundle exec sidekiq" C-m
+        # Window 2: Sidekiq (if Redis available)
+        if command_exists redis-cli && redis-cli ping > /dev/null 2>&1; then
+            tmux new-window -t rails_nextjs_app:2 -n 'Sidekiq'
+            tmux send-keys -t rails_nextjs_app:2 "cd apps/api && bundle exec sidekiq" C-m
+        fi
+
+        # Select first window
+        tmux select-window -t rails_nextjs_app:0
 
         # Attach to session
         print_success "All services started in tmux session 'rails_nextjs_app'"
-        print_info "To attach: tmux attach -t rails_nextjs_app"
-        print_info "To detach: Ctrl+b then d"
-        print_info "To kill: tmux kill-session -t rails_nextjs_app"
+        echo ""
+        print_info "tmux Commands:"
+        print_info "  Switch windows: Ctrl+b then 0/1/2"
+        print_info "  Detach: Ctrl+b then d"
+        print_info "  Kill session: tmux kill-session -t rails_nextjs_app"
+        echo ""
+        print_info "Service URLs:"
+        print_info "  Rails API: http://localhost:3000"
+        print_info "  Next.js Web: http://localhost:4200"
+        print_info "  API Docs: http://localhost:3000/api-docs"
+        echo ""
 
+        sleep 2
         tmux attach -t rails_nextjs_app
     else
-        print_warning "tmux not found. Starting services sequentially..."
-        print_info "Install tmux for better multi-process management: brew install tmux"
+        print_warning "tmux not found. Starting services in background..."
+        print_info "Install tmux for better management: brew install tmux"
 
         # Use background processes with trap for cleanup
         trap "kill 0" EXIT
 
-        cd apps/api && bundle exec rails server -p 3000 &
+        (cd apps/api && bundle exec rails server -p 3000) &
         API_PID=$!
 
-        cd apps/web && npm run dev -- -p 4200 &
+        (npx nx serve web) &
         WEB_PID=$!
 
-        print_success "Services started"
+        # Start Sidekiq if Redis is available
+        if command_exists redis-cli && redis-cli ping > /dev/null 2>&1; then
+            (cd apps/api && bundle exec sidekiq) &
+            SIDEKIQ_PID=$!
+            print_info "Sidekiq PID: $SIDEKIQ_PID"
+        fi
+
+        print_success "Services started in background"
         print_info "Rails API PID: $API_PID"
         print_info "Next.js Web PID: $WEB_PID"
+        echo ""
+        print_info "Service URLs:"
+        print_info "  Rails API: http://localhost:3000"
+        print_info "  Next.js Web: http://localhost:4200"
+        echo ""
         print_info "Press Ctrl+C to stop all services"
 
         wait
@@ -258,40 +319,81 @@ run_e2e() {
 # Function to show help
 show_help() {
     cat << EOF
-${BLUE}Rails + Next.js Commentable Project Runner${NC}
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
+${BLUE}  Rails + Next.js Commentable Project Runner${NC}
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 
-${GREEN}Usage:${NC}
+${GREEN}USAGE${NC}
   ./run.sh [command] [options]
 
-${GREEN}Commands:${NC}
+${GREEN}COMMANDS${NC}
   ${YELLOW}dev${NC}              Start all services in development mode
   ${YELLOW}api${NC}              Start only the Rails API server
   ${YELLOW}web${NC}              Start only the Next.js web application
-  ${YELLOW}install${NC}          Install all dependencies
+  ${YELLOW}install${NC}          Install all dependencies (Node.js + Ruby)
   ${YELLOW}setup${NC}            Setup database (create, migrate)
-  ${YELLOW}setup --seed${NC}     Setup database and run seeds
-  ${YELLOW}test${NC}             Run all tests
-  ${YELLOW}lint${NC}             Run linters
-  ${YELLOW}build${NC}            Build all applications
-  ${YELLOW}e2e${NC}              Run end-to-end tests
+  ${YELLOW}setup --seed${NC}     Setup database and run seeds with sample data
+  ${YELLOW}test${NC}             Run all tests (Rails RSpec + Next.js)
+  ${YELLOW}lint${NC}             Run linters on all code
+  ${YELLOW}build${NC}            Build all applications for production
+  ${YELLOW}e2e${NC}              Run end-to-end tests with Playwright
   ${YELLOW}check${NC}            Check prerequisites and services
   ${YELLOW}help${NC}             Show this help message
 
-${GREEN}Examples:${NC}
-  ./run.sh dev              # Start all services
-  ./run.sh api              # Start only Rails API
-  ./run.sh setup --seed     # Setup database with seeds
-  ./run.sh test             # Run all tests
+${GREEN}EXAMPLES${NC}
+  ${YELLOW}./run.sh dev${NC}              # Start all services with tmux
+  ${YELLOW}./run.sh install${NC}          # Install all dependencies
+  ${YELLOW}./run.sh setup --seed${NC}     # Setup database with sample users
+  ${YELLOW}./run.sh api${NC}              # Start only Rails API
+  ${YELLOW}./run.sh web${NC}              # Start only Next.js frontend
+  ${YELLOW}./run.sh test${NC}             # Run all tests
+  ${YELLOW}./run.sh check${NC}            # Verify environment
 
-${GREEN}Service URLs:${NC}
-  Rails API:     http://localhost:3000
-  Next.js Web:   http://localhost:4200
-  API Docs:      http://localhost:3000/api-docs
+${GREEN}SERVICE URLS${NC}
+  ${BLUE}Rails API:${NC}          http://localhost:3000
+  ${BLUE}Next.js Web:${NC}        http://localhost:4200
+  ${BLUE}API Docs (Swagger):${NC} http://localhost:3000/api-docs
 
-${GREEN}Tips:${NC}
-  - Install tmux for better multi-process management: ${YELLOW}brew install tmux${NC}
-  - Stop all services: ${YELLOW}Ctrl+C${NC} or ${YELLOW}tmux kill-session -t rails_nextjs_app${NC}
-  - View logs: ${YELLOW}tail -f apps/api/log/development.log${NC}
+${GREEN}DEVELOPMENT STACK${NC}
+  ${BLUE}Backend:${NC}  Rails 8.1.1 (API mode) with SQLite
+  ${BLUE}Frontend:${NC} Next.js 15.2.4 (App Router) with TypeScript
+  ${BLUE}Build:${NC}    Nx Monorepo 20.8.2
+  ${BLUE}Testing:${NC}  RSpec + Playwright
+
+${GREEN}SAMPLE USERS (after setup --seed)${NC}
+  ${BLUE}Admin:${NC}      admin@example.com      (password: admin@example.com)
+  ${BLUE}Moderator:${NC}  moderator@example.com  (password: moderator@example.com)
+  ${BLUE}User:${NC}       user@example.com       (password: user@example.com)
+
+${GREEN}TMUX COMMANDS (when using tmux)${NC}
+  ${YELLOW}Switch windows:${NC}  Ctrl+b then 0/1/2
+  ${YELLOW}Detach:${NC}          Ctrl+b then d
+  ${YELLOW}Reattach:${NC}        tmux attach -t rails_nextjs_app
+  ${YELLOW}Kill session:${NC}    tmux kill-session -t rails_nextjs_app
+  ${YELLOW}List sessions:${NC}   tmux ls
+
+${GREEN}TIPS${NC}
+  • Install tmux for better process management:
+    ${YELLOW}brew install tmux${NC} (macOS) or ${YELLOW}apt-get install tmux${NC} (Linux)
+
+  • View Rails logs:
+    ${YELLOW}tail -f apps/api/log/development.log${NC}
+
+  • Reset database:
+    ${YELLOW}cd apps/api && bundle exec rails db:reset && bundle exec rails db:seed${NC}
+
+  • Clean build:
+    ${YELLOW}rm -rf node_modules apps/web/.next && npm install${NC}
+
+${GREEN}TROUBLESHOOTING${NC}
+  • Port 3000 already in use: ${YELLOW}lsof -ti:3000 | xargs kill -9${NC}
+  • Port 4200 already in use: ${YELLOW}lsof -ti:4200 | xargs kill -9${NC}
+  • Database locked: Stop all Rails processes and restart
+  • Frontend not loading: Check ${YELLOW}apps/web/.env.local${NC} exists
+
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
+For more information, see: ${YELLOW}README.md${NC}
+${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}
 
 EOF
 }
