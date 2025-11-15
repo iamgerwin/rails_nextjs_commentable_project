@@ -157,12 +157,18 @@ module Api
       private
 
       def set_user
-        # Support both ID and username lookups
-        @user = if params[:id].match?(/^\d+$/) || params[:id].match?(/^[0-9a-f]{8}-/)
-                  User.find(params[:id])
-                else
-                  User.find_by!(username: params[:id])
-                end
+        # Support "me" as a special case for current user
+        if params[:id] == 'me'
+          @user = current_user
+          return render_unauthorized unless @user
+        else
+          # Support both ID and username lookups
+          @user = if params[:id].match?(/^\d+$/) || params[:id].match?(/^[0-9a-f]{8}-/)
+                    User.find(params[:id])
+                  else
+                    User.find_by!(username: params[:id])
+                  end
+        end
       rescue ActiveRecord::RecordNotFound
         render_error(
           'User not found',
