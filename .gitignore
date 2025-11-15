@@ -60,3 +60,7 @@ Thumbs.db
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Next.js
+.next
+out

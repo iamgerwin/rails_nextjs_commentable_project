@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@workspace/shared-types": ["packages/shared-types/src/index.ts"],
+      "@workspace/shared-config": ["packages/shared-config/src/index.ts"],
       "@workspace/shared-enums": ["packages/shared-enums/src/index.ts"],
-      "@workspace/shared-config": ["packages/shared-config/src/index.ts"]
+      "@workspace/shared-types": ["packages/shared-types/src/index.ts"]
     },
     "strict": true,
     "noImplicitAny": true,
