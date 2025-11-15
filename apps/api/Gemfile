@@ -52,6 +52,9 @@ gem "kaminari"
 # Advanced searching, sorting, and filtering
 gem "ransack"
 
+# Time-based grouping for statistics
+gem "groupdate"
+
 # API Documentation with Swagger/OpenAPI
 gem "rswag"
 gem "rswag-api"

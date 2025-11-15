@@ -81,6 +81,18 @@ class Comment < ApplicationRecord
     depth
   end
 
+  def viewable_by?(viewer = nil)
+    return true if status_active?
+    return false unless viewer
+    user_id == viewer.id || viewer.can_moderate?
+  end
+
+  def can_reply?(replier = nil)
+    return false unless replier&.status_active?
+    return false unless status_active?
+    true
+  end
+
   private
 
   def generate_uuid

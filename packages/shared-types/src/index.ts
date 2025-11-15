@@ -46,15 +46,17 @@ export interface SoftDeletableEntity extends TimestampedEntity {
  * User types
  */
 export interface User extends BaseEntity, SoftDeletableEntity {
-  email: string;
+  email?: string; // Only shown to owner or admin
   username: string;
   firstName: string;
   lastName: string;
+  fullName: string;
+  initials: string;
   role: UserRole;
   status: UserStatus;
   avatar?: string;
   bio?: string;
-  emailVerified: boolean;
+  emailVerified?: boolean; // Only shown to owner or admin
   lastLoginAt?: string;
 }
 
@@ -98,8 +100,9 @@ export interface Video extends BaseEntity, SoftDeletableEntity {
   viewsCount: number;
   commentsCount: number;
   reactionsCount: number;
-  tags?: string[];
-  metadata?: Record<string, unknown>;
+  tags: string[];
+  metadata: Record<string, unknown>;
+  publishedAt?: string;
 }
 
 export interface VideoCreateInput {
@@ -133,8 +136,9 @@ export interface Post extends BaseEntity, SoftDeletableEntity {
   viewsCount: number;
   commentsCount: number;
   reactionsCount: number;
-  tags?: string[];
-  metadata?: Record<string, unknown>;
+  readingTime?: number;
+  tags: string[];
+  metadata: Record<string, unknown>;
   publishedAt?: string;
 }
 
@@ -186,7 +190,7 @@ export interface CommentUpdateInput {
  * Reaction types
  */
 export interface Reaction extends BaseEntity {
-  type: ReactionType;
+  typeName: ReactionType;
   userId: string;
   user?: User;
   reactableType: ReactableType;
@@ -195,9 +199,7 @@ export interface Reaction extends BaseEntity {
 }
 
 export interface ReactionCreateInput {
-  type: ReactionType;
-  reactableType: ReactableType;
-  reactableId: string;
+  typeName: ReactionType;
 }
 
 export interface ReactionSummary {
@@ -221,10 +223,11 @@ export interface Report extends BaseEntity {
   reportableType: ReportableType;
   reportableId: string;
   reportable?: Video | Post | Comment | User;
-  reviewerId?: string;
-  reviewer?: User;
+  moderatorId?: string;
+  moderator?: User;
   reviewedAt?: string;
-  resolution?: string;
+  resolvedAt?: string;
+  moderatorNotes?: string;
 }
 
 export interface ReportCreateInput {
@@ -243,12 +246,12 @@ export interface ReportUpdateInput {
  * Audit types
  */
 export interface AuditLog extends BaseEntity {
-  action: AuditAction;
+  action: string;
   auditableType: AuditableType;
   auditableId: string;
   userId?: string;
   user?: User;
-  changes?: Record<string, unknown>;
+  changeData?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
   ipAddress?: string;
   userAgent?: string;

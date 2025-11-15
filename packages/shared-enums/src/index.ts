@@ -44,7 +44,7 @@ export enum ReactableType {
 
 export enum ReportStatus {
   PENDING = 'pending',
-  REVIEWING = 'reviewing',
+  UNDER_REVIEW = 'under_review',
   RESOLVED = 'resolved',
   REJECTED = 'rejected',
 }

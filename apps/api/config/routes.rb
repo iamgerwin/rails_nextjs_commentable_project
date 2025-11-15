@@ -58,9 +58,9 @@ Rails.application.routes.draw do
       end
 
       # Comment routes (for updates and nested replies)
-      resources :comments, only: [:show, :update, :destroy] do
+      resources :comments, only: [:index, :show, :update, :destroy] do
         # Nested replies
-        resources :comments, only: [:index, :create]
+        post :replies, on: :member
 
         # Reactions on comments
         resources :reactions, only: [:index, :create, :destroy]
