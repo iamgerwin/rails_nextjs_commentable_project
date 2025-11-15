@@ -17,7 +17,6 @@ module Api
       rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
       rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-      rescue_from Ransack::Search::StaleSearchError, with: :render_bad_request
 
       # Pagination settings
       PAGINATION_DEFAULTS = {
