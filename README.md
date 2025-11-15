@@ -1,5 +1,10 @@
 # Rails + Next.js Commentable Project
 
+[![CI](https://github.com/iamgerwin/rails_nextjs_commentable_project/workflows/CI/badge.svg)](https://github.com/iamgerwin/rails_nextjs_commentable_project/actions/workflows/ci.yml)
+[![CD](https://github.com/iamgerwin/rails_nextjs_commentable_project/workflows/CD/badge.svg)](https://github.com/iamgerwin/rails_nextjs_commentable_project/actions/workflows/cd.yml)
+[![Code Quality](https://github.com/iamgerwin/rails_nextjs_commentable_project/workflows/Code%20Quality/badge.svg)](https://github.com/iamgerwin/rails_nextjs_commentable_project/actions/workflows/code-quality.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A production-ready monorepo starter template featuring Ruby on Rails 8.1.1 backend and Next.js 16.0.3 frontend with comprehensive CRUD operations, polymorphic comments, and modern development practices.
 
 ## 🏗️ Architecture
@@ -23,11 +28,17 @@ rails_nextjs_commentable_project/
 
 ### Prerequisites
 
+#### Required
 - **Node.js**: >= 20.0.0
-- **Ruby**: >= 3.3.0
-- **Rails**: >= 8.1.1
-- **PostgreSQL**: >= 14.0
-- **Redis**: >= 7.0 (for caching and jobs)
+- **Ruby**: >= 3.3.6
+- **Bundler**: Latest version
+
+#### Optional (For Production)
+- **PostgreSQL**: >= 14.0 (Development uses SQLite by default)
+- **Redis**: >= 7.0 (For Sidekiq background jobs)
+- **tmux**: For better process management (recommended)
+
+> **Note**: The project works out of the box with SQLite for development. PostgreSQL and Redis are only needed for production deployments.
 
 ### Installation
 
@@ -36,18 +47,33 @@ rails_nextjs_commentable_project/
 gh repo clone iamgerwin/rails_nextjs_commentable_project
 cd rails_nextjs_commentable_project
 
-# Install dependencies
-npm install
+# Install all dependencies (Node.js + Ruby)
+./run.sh install
 
-# Set up the database
-cd apps/api
-bundle install
-rails db:create db:migrate db:seed
-cd ../..
+# Setup database with sample data
+./run.sh setup --seed
 
-# Start development servers
+# Start all development servers
 ./run.sh dev
 ```
+
+### First Time Setup
+
+After installation, you can login with these sample users:
+
+| Role      | Email                   | Password              |
+|-----------|-------------------------|-----------------------|
+| Admin     | admin@example.com       | admin@example.com     |
+| Moderator | moderator@example.com   | moderator@example.com |
+| User      | user@example.com        | user@example.com      |
+
+### Access Points
+
+| Service          | URL                              |
+|------------------|----------------------------------|
+| Rails API        | http://localhost:3000            |
+| Next.js Frontend | http://localhost:4200            |
+| API Docs         | http://localhost:3000/api-docs   |
 
 ## 🛠️ Tech Stack
 
@@ -128,6 +154,7 @@ See [docs/architecture/erd.md](docs/architecture/erd.md) for the complete ERD.
 - [Frontend Components](docs/frontend/components.md)
 - [Development Guide](docs/development/README.md)
 - [Deployment Guide](docs/deployment/README.md)
+- [CI/CD with GitHub Actions](docs/ci-cd/github-actions.md)
 
 ## 🧪 Testing
 
@@ -145,25 +172,193 @@ nx test web
 npm run e2e
 ```
 
-## 📜 Scripts
+## 📜 Development Scripts
 
-### Using run.sh
+The `run.sh` script provides a unified interface for all development tasks. It automatically handles prerequisites, environment setup, and process management.
+
+### Available Commands
 
 ```bash
-# Start all services in development
+./run.sh [command] [options]
+```
+
+#### Development Commands
+
+**`./run.sh dev`** - Start all services in development mode
+- Automatically creates `apps/web/.env.local` if missing
+- Starts Rails API on port 3000
+- Starts Next.js frontend on port 4200
+- Starts Sidekiq (if Redis is available)
+- Uses tmux for better process management (if installed)
+
+```bash
+# Start all services with tmux
 ./run.sh dev
 
-# Start only API
+# In tmux session:
+# Ctrl+b then 0    - Switch to Rails API window
+# Ctrl+b then 1    - Switch to Next.js window
+# Ctrl+b then 2    - Switch to Sidekiq window (if available)
+# Ctrl+b then d    - Detach from session (services keep running)
+
+# Later, reattach:
+tmux attach -t rails_nextjs_app
+
+# Stop everything:
+tmux kill-session -t rails_nextjs_app
+```
+
+**`./run.sh api`** - Start only the Rails API server
+```bash
 ./run.sh api
+# Runs on http://localhost:3000
+```
 
-# Start only web
+**`./run.sh web`** - Start only the Next.js frontend
+```bash
 ./run.sh web
+# Runs on http://localhost:4200
+```
 
-# Run tests
+#### Setup Commands
+
+**`./run.sh install`** - Install all dependencies
+```bash
+./run.sh install
+# Installs both Node.js and Ruby dependencies
+```
+
+**`./run.sh setup`** - Setup database (create and migrate)
+```bash
+./run.sh setup
+# Creates database and runs migrations
+```
+
+**`./run.sh setup --seed`** - Setup database with sample data
+```bash
+./run.sh setup --seed
+# Creates database, runs migrations, and seeds sample users
+```
+
+#### Testing Commands
+
+**`./run.sh test`** - Run all tests (Rails RSpec + Next.js)
+```bash
 ./run.sh test
+```
 
-# Build all apps
+**`./run.sh lint`** - Run linters on all code
+```bash
+./run.sh lint
+```
+
+**`./run.sh e2e`** - Run end-to-end tests with Playwright
+```bash
+./run.sh e2e
+```
+
+#### Build Commands
+
+**`./run.sh build`** - Build all applications for production
+```bash
 ./run.sh build
+```
+
+#### Utility Commands
+
+**`./run.sh check`** - Check prerequisites and services
+```bash
+./run.sh check
+# Verifies Node.js, Ruby, Bundler are installed
+# Checks if PostgreSQL and Redis are available
+```
+
+**`./run.sh help`** - Show comprehensive help message
+```bash
+./run.sh help
+```
+
+### Troubleshooting
+
+#### Port Already in Use
+
+```bash
+# Kill process on port 3000 (Rails API)
+lsof -ti:3000 | xargs kill -9
+
+# Kill process on port 4200 (Next.js)
+lsof -ti:4200 | xargs kill -9
+```
+
+#### Database Issues
+
+```bash
+# Reset database
+cd apps/api
+bundle exec rails db:reset
+bundle exec rails db:seed
+cd ../..
+```
+
+#### Frontend Not Loading
+
+```bash
+# Check environment file exists
+ls apps/web/.env.local
+
+# If missing, the run.sh script will create it automatically
+# Or create it manually:
+cat > apps/web/.env.local << EOF
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_API_VERSION=v1
+EOF
+```
+
+#### Clean Build
+
+```bash
+# Full clean rebuild
+rm -rf node_modules apps/web/.next
+npm install
+```
+
+### Daily Development Workflow
+
+```bash
+# 1. Start development environment
+./run.sh dev
+
+# 2. Work in your editor
+# Services are running in tmux
+
+# 3. Check logs if needed
+tail -f apps/api/log/development.log
+
+# 4. Detach from tmux to work
+Ctrl+b then d
+
+# 5. Reattach when needed
+tmux attach -t rails_nextjs_app
+
+# 6. Stop everything when done
+tmux kill-session -t rails_nextjs_app
+```
+
+### Manual NPM/Yarn Commands
+
+If you prefer manual control:
+
+```bash
+# Backend (Rails API)
+cd apps/api
+bundle exec rails server -p 3000
+
+# Frontend (Next.js)
+npx nx serve web
+
+# Sidekiq (if Redis is running)
+cd apps/api
+bundle exec sidekiq
 ```
 
 ## 🔐 Environment Variables
@@ -187,6 +382,73 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 ## 🚢 Deployment
 
 See [docs/deployment/README.md](docs/deployment/README.md) for deployment instructions.
+
+## 🔄 CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+### Automated Workflows
+
+- **CI (Continuous Integration)** - Runs on every push and PR
+  - Linting and type checking
+  - Backend tests (RSpec)
+  - Frontend tests (Jest)
+  - E2E tests (Playwright)
+  - Security scanning
+  - Build verification
+
+- **CD (Continuous Deployment)** - Automated deployments
+  - Staging: Deploys on push to `develop`
+  - Production: Deploys on push to `main`
+  - Automatic database migrations
+  - Health checks and smoke tests
+  - Rollback on failure
+
+- **Code Quality** - Enforces code standards
+  - ESLint, Prettier, TypeScript
+  - RuboCop, Reek, Rails Best Practices
+  - Brakeman security scanner
+  - Conventional commits validation
+
+- **Dependency Updates** - Weekly automated updates
+  - Node.js packages (Mondays at 9 AM UTC)
+  - Ruby gems (Mondays at 9 AM UTC)
+  - Security audits
+  - Auto-creates PRs
+
+- **Production Health Check** - Monitors production (every 30 minutes)
+  - API health endpoint
+  - Frontend availability
+  - Database connectivity
+  - Redis connectivity
+  - Performance metrics
+  - Uptime tracking
+
+- **Release** - Automated releases
+  - Version tagging (`v*.*.*`)
+  - Changelog generation
+  - Docker image builds
+  - Multi-platform artifacts
+  - GitHub releases
+
+### Setup
+
+See [CI/CD Documentation](docs/ci-cd/github-actions.md) for detailed setup instructions.
+
+**Required Secrets**:
+```bash
+RAILS_MASTER_KEY          # Rails credentials
+VERCEL_TOKEN              # Vercel deployment (optional)
+DOCKER_USERNAME           # Docker Hub username
+DOCKER_PASSWORD           # Docker Hub password
+NEXT_PUBLIC_API_URL       # Production API URL
+SLACK_WEBHOOK_URL         # Slack notifications (optional)
+```
+
+**Branch Protection** (recommended):
+- Require status checks: CI Success, Lint & Format, Tests
+- Require pull request reviews (at least 1)
+- Require conversation resolution
 
 ## 📝 License
 
