@@ -2,131 +2,117 @@
 
 import { useAuth } from '@/contexts/auth-context';
 import { ProtectedRoute } from '@/components/auth/protected-route';
+import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { Video, FileText, MessageSquare, TrendingUp } from 'lucide-react';
 
 function DashboardContent() {
-  const { user, logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout();
-  };
-
-  const getInitials = (firstName?: string, lastName?: string) => {
-    const first = firstName?.charAt(0) || '';
-    const last = lastName?.charAt(0) || '';
-    return `${first}${last}`.toUpperCase() || '?';
-  };
+  const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="border-b bg-white">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            Logout
-          </Button>
+    <DashboardLayout>
+      <div className="space-y-6">
+        {/* Welcome Section */}
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">
+            Welcome back, {user?.first_name}!
+          </h2>
+          <p className="text-muted-foreground">
+            Here&apos;s what&apos;s happening with your content today.
+          </p>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* User Profile Card */}
-          <Card className="md:col-span-2 lg:col-span-1">
-            <CardHeader>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>Your account information</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-16 w-16">
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    {getInitials(user?.first_name, user?.last_name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium">
-                    {user?.first_name} {user?.last_name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">@{user?.username}</p>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div>
-                  <p className="text-sm font-medium">Email</p>
-                  <p className="text-sm text-muted-foreground">{user?.email}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Role</p>
-                  <Badge variant={user?.role === 'admin' ? 'default' : 'secondary'}>
-                    {user?.role}
-                  </Badge>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Status</p>
-                  <Badge variant={user?.email_verified ? 'default' : 'outline'}>
-                    {user?.email_verified ? 'Verified' : 'Unverified'}
-                  </Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Stats */}
+        {/* Quick Stats */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Videos</CardTitle>
-              <CardDescription>Your video content</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Videos</CardTitle>
+              <Video className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold">0</p>
-              <p className="text-sm text-muted-foreground">Total videos</p>
+              <div className="text-2xl font-bold">0</div>
+              <p className="text-xs text-muted-foreground">
+                No videos uploaded yet
+              </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Posts</CardTitle>
-              <CardDescription>Your blog posts</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Posts</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold">0</p>
-              <p className="text-sm text-muted-foreground">Total posts</p>
+              <div className="text-2xl font-bold">0</div>
+              <p className="text-xs text-muted-foreground">
+                No posts published yet
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Comments</CardTitle>
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">0</div>
+              <p className="text-xs text-muted-foreground">
+                Your total comments
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Views</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">0</div>
+              <p className="text-xs text-muted-foreground">
+                Across all content
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>Your latest content activity</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                No recent activity to display
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Comments</CardTitle>
-              <CardDescription>Your comments</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">0</p>
-              <p className="text-sm text-muted-foreground">Total comments</p>
-            </CardContent>
-          </Card>
-
-          {/* Welcome Card */}
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>Welcome to your Dashboard</CardTitle>
+              <CardTitle>Get Started</CardTitle>
               <CardDescription>
-                Get started by creating your first video or blog post
+                Create your first video or blog post
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex gap-4">
-              <Button>Create Video</Button>
-              <Button variant="outline">Create Post</Button>
+            <CardContent className="flex flex-col gap-2">
+              <Button className="w-full">
+                <Video className="mr-2 h-4 w-4" />
+                Create Video
+              </Button>
+              <Button variant="outline" className="w-full">
+                <FileText className="mr-2 h-4 w-4" />
+                Create Post
+              </Button>
             </CardContent>
           </Card>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }
 
