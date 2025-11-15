@@ -5,6 +5,9 @@ module Api
     # Base controller for API v1
     # All v1 controllers should inherit from this controller
     class BaseController < ApplicationController
+      include Authenticable
+      include Pundit::Authorization
+
       # API versioning is handled via namespace routing
       # This ensures all endpoints are prefixed with /api/v1
 
@@ -15,7 +18,8 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
       rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
-      rescue_from Pundit::NotAuthorizedError, with: :render_forbidden
+      rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+      rescue_from Ransack::Search::StaleSearchError, with: :render_bad_request
 
       # Pagination settings
       PAGINATION_DEFAULTS = {

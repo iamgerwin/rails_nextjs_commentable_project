@@ -321,6 +321,8 @@ GEM
     public_suffix (6.0.2)
     puma (7.1.0)
       nio4r (~> 2.0)
+    pundit (2.5.2)
+      activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.4)
@@ -369,6 +371,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.1)
+    ransack (4.4.1)
+      activerecord (>= 7.2)
+      activesupport (>= 7.2)
+      i18n
     rdoc (6.15.1)
       erb
       psych (>= 4.0.0)
@@ -570,10 +576,12 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (>= 5.0)
+  pundit
   rack-attack
   rack-cors
   rack-timeout
   rails (~> 8.1.1)
+  ransack
   redis
   rspec-rails
   rswag

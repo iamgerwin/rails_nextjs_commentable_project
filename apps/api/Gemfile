@@ -49,6 +49,9 @@ gem "jwt"
 # Pagination
 gem "kaminari"
 
+# Advanced searching, sorting, and filtering
+gem "ransack"
+
 # API Documentation with Swagger/OpenAPI
 gem "rswag"
 gem "rswag-api"
@@ -82,6 +85,9 @@ gem "rack-timeout" # Request timeout
 gem "lograge" # Better logging
 gem "sentry-ruby" # Error tracking
 gem "sentry-rails"
+
+# Authorization
+gem "pundit"
 
 # Code quality
 gem "rubocop-rails", require: false

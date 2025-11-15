@@ -40,5 +40,26 @@ module Api
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Add custom middleware
+    config.middleware.use JwtAuthentication
+
+    # Autoload paths
+    config.autoload_paths += %W[
+      #{config.root}/app/actions
+      #{config.root}/app/observers
+      #{config.root}/app/services
+      #{config.root}/app/strategies
+      #{config.root}/app/middleware
+    ]
+
+    # Eager load paths in production
+    config.eager_load_paths += %W[
+      #{config.root}/app/actions
+      #{config.root}/app/observers
+      #{config.root}/app/services
+      #{config.root}/app/strategies
+      #{config.root}/app/middleware
+    ]
   end
 end
