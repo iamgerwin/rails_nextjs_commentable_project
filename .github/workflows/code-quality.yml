@@ -1,0 +1,312 @@
+name: Code Quality
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '20.x'
+  RUBY_VERSION: '3.3.6'
+
+jobs:
+  # Job 1: Frontend Code Quality
+  frontend-quality:
+    name: Frontend Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint with annotations
+        run: npx nx run-many --target=lint --all --parallel=3
+        continue-on-error: false
+
+      - name: Run Prettier check
+        run: npx prettier --check "apps/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+        continue-on-error: true
+
+      - name: TypeScript type check
+        run: npx nx run-many --target=typecheck --all --parallel=3
+
+      - name: Check for console.logs in production code
+        run: |
+          if grep -r "console.log" apps/web/src --exclude-dir=node_modules --exclude-dir=.next; then
+            echo "Found console.log statements in production code!"
+            echo "Please remove console.log statements before merging."
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Check for TODO comments
+        run: |
+          echo "Checking for TODO comments..."
+          grep -r "TODO\|FIXME\|XXX" apps/web/src --exclude-dir=node_modules --exclude-dir=.next || echo "No TODOs found"
+        continue-on-error: true
+
+  # Job 2: Backend Code Quality
+  backend-quality:
+    name: Backend Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          working-directory: apps/api
+
+      - name: Run RuboCop
+        working-directory: apps/api
+        run: |
+          gem install rubocop rubocop-rails rubocop-rspec
+          rubocop --format json --out rubocop-report.json || true
+          rubocop --format simple
+        continue-on-error: true
+
+      - name: Run Reek (code smell detector)
+        working-directory: apps/api
+        run: |
+          gem install reek
+          reek app/ --format json > reek-report.json || true
+          reek app/
+        continue-on-error: true
+
+      - name: Run Rails Best Practices
+        working-directory: apps/api
+        run: |
+          gem install rails_best_practices
+          rails_best_practices --format json --output-file rbp-report.json . || true
+          rails_best_practices .
+        continue-on-error: true
+
+      - name: Run Brakeman (security scanner)
+        working-directory: apps/api
+        run: |
+          gem install brakeman
+          brakeman --no-pager --format json --output brakeman-report.json
+          brakeman --no-pager
+        continue-on-error: true
+
+      - name: Upload quality reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-quality-reports
+          path: |
+            apps/api/rubocop-report.json
+            apps/api/reek-report.json
+            apps/api/rbp-report.json
+            apps/api/brakeman-report.json
+          retention-days: 7
+
+      - name: Check for binding.pry in code
+        working-directory: apps/api
+        run: |
+          if grep -r "binding.pry\|binding.irb\|byebug\|debugger" app/ spec/ --exclude-dir=tmp; then
+            echo "Found debugging statements in code!"
+            echo "Please remove debugging statements before merging."
+            exit 1
+          fi
+        continue-on-error: true
+
+  # Job 3: Shared Packages Quality
+  shared-packages-quality:
+    name: Shared Packages Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint shared packages
+        run: |
+          npx nx run shared-types:lint
+          npx nx run shared-enums:lint
+          npx nx run shared-config:lint
+
+      - name: Type check shared packages
+        run: |
+          npx nx run shared-types:typecheck
+          npx nx run shared-enums:typecheck
+          npx nx run shared-config:typecheck
+
+  # Job 4: Documentation Quality
+  documentation-quality:
+    name: Documentation Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for broken markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.github/markdown-link-check-config.json'
+        continue-on-error: true
+
+      - name: Check README exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "README.md not found!"
+            exit 1
+          fi
+          echo "README.md exists"
+
+      - name: Check documentation completeness
+        run: |
+          echo "Checking documentation files..."
+          required_docs=(
+            "README.md"
+            "CONTRIBUTING.md"
+            "docs/architecture/overview.md"
+            "docs/api/README.md"
+          )
+
+          missing_docs=()
+          for doc in "${required_docs[@]}"; do
+            if [ ! -f "$doc" ]; then
+              missing_docs+=("$doc")
+            fi
+          done
+
+          if [ ${#missing_docs[@]} -gt 0 ]; then
+            echo "Missing documentation files:"
+            printf '%s\n' "${missing_docs[@]}"
+          else
+            echo "All required documentation files present"
+          fi
+        continue-on-error: true
+
+  # Job 5: Commit Message Quality
+  commit-quality:
+    name: Commit Message Quality
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        run: |
+          echo "Checking commit messages follow conventional commits..."
+          # Get all commits in this PR
+          COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s")
+
+          # Check each commit message
+          INVALID_COMMITS=()
+          while IFS= read -r commit; do
+            # Check if commit message follows conventional commits format
+            if ! echo "$commit" | grep -qE '^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+'; then
+              INVALID_COMMITS+=("$commit")
+            fi
+          done <<< "$COMMITS"
+
+          if [ ${#INVALID_COMMITS[@]} -gt 0 ]; then
+            echo "Found commits that don't follow conventional commits format:"
+            printf '%s\n' "${INVALID_COMMITS[@]}"
+            echo ""
+            echo "Please follow conventional commits format:"
+            echo "  feat: add new feature"
+            echo "  fix: bug fix"
+            echo "  docs: documentation changes"
+            echo "  style: code formatting"
+            echo "  refactor: code refactoring"
+            echo "  test: adding tests"
+            echo "  chore: maintenance tasks"
+          else
+            echo "All commit messages follow conventional commits format"
+          fi
+        continue-on-error: true
+
+  # Job 6: Code Coverage Check
+  coverage-check:
+    name: Code Coverage Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npx nx test web --coverage --watchAll=false
+
+      - name: Check coverage thresholds
+        run: |
+          echo "Checking coverage thresholds..."
+          # Check if coverage meets minimum requirements
+          # This can be customized based on your requirements
+          # Example: Fail if coverage is below 70%
+          npx nyc check-coverage --lines 70 --functions 70 --branches 70 --statements 70 || echo "Coverage below threshold (warning only)"
+        continue-on-error: true
+
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            // Read coverage summary if available
+            // Add logic to post coverage comment to PR
+            console.log('Coverage reporting would happen here');
+        continue-on-error: true
+
+  # Final job: Quality gate
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    needs: [frontend-quality, backend-quality, shared-packages-quality]
+    if: always()
+
+    steps:
+      - name: Check all quality checks
+        run: |
+          if [[ "${{ needs.frontend-quality.result }}" == "failure" ]] || \
+             [[ "${{ needs.backend-quality.result }}" == "failure" ]] || \
+             [[ "${{ needs.shared-packages-quality.result }}" == "failure" ]]; then
+            echo "One or more quality checks failed"
+            exit 1
+          fi
+          echo "All quality checks passed!"

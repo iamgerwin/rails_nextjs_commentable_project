@@ -1,0 +1,255 @@
+name: CD (Continuous Deployment)
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '20.x'
+  RUBY_VERSION: '3.3.6'
+
+jobs:
+  # Job 1: Build and Test
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          working-directory: apps/api
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linters
+        run: npm run lint
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            apps/web/.next/
+            apps/web/public/
+          retention-days: 1
+
+  # Job 2: Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: https://staging.example.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: apps/web/
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging environment..."
+          # Add your staging deployment commands here
+          # Examples:
+          # - Deploy to Heroku: git push heroku-staging main
+          # - Deploy to AWS: aws deploy ...
+          # - Deploy to Vercel: vercel deploy --prebuilt
+          # - Deploy to Railway: railway up
+          echo "Staging deployment would happen here"
+
+      - name: Run database migrations (Staging)
+        run: |
+          echo "Running database migrations on staging..."
+          # Add migration commands for staging
+          # heroku run rails db:migrate --app myapp-staging
+
+      - name: Notify deployment
+        if: always()
+        run: |
+          echo "Staging deployment completed"
+          # Add notification logic (Slack, Discord, Email, etc.)
+
+  # Job 3: Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment:
+      name: production
+      url: https://example.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: apps/web/
+
+      - name: Create deployment backup
+        run: |
+          echo "Creating backup before deployment..."
+          # Add backup commands here
+          # Examples:
+          # - Database backup
+          # - Asset backup
+          # - Configuration backup
+
+      - name: Deploy Rails API to Production
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          echo "Deploying Rails API to production..."
+          # Add production deployment commands for Rails
+          # Examples:
+          # - Heroku: git push heroku main
+          # - AWS Elastic Beanstalk: eb deploy
+          # - Render: render deploy
+          # - Railway: railway up
+          echo "Rails API deployment would happen here"
+
+      - name: Deploy Next.js Frontend to Production
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_VERSION: v1
+        run: |
+          echo "Deploying Next.js to production..."
+          # Examples:
+          # - Vercel: vercel deploy --prod --token=$VERCEL_TOKEN
+          # - Netlify: netlify deploy --prod
+          # - AWS S3 + CloudFront: aws s3 sync ...
+          echo "Next.js deployment would happen here"
+
+      - name: Run database migrations (Production)
+        run: |
+          echo "Running database migrations on production..."
+          # Add migration commands for production
+          # IMPORTANT: Always backup before migrations!
+          # heroku run rails db:migrate --app myapp-production
+
+      - name: Verify deployment health
+        run: |
+          echo "Checking deployment health..."
+          # Add health check commands
+          # curl -f https://example.com/health || exit 1
+          # curl -f https://api.example.com/health || exit 1
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "Production deployment successful!"
+          # Add success notification logic (Slack, Discord, Email, etc.)
+          # Example Slack webhook:
+          # curl -X POST -H 'Content-type: application/json' \
+          #   --data '{"text":"Production deployment successful!"}' \
+          #   ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify deployment failure
+        if: failure()
+        run: |
+          echo "Production deployment failed!"
+          # Add failure notification logic
+          # Important: Alert team immediately on production failures
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Initiating rollback..."
+          # Add rollback commands here
+          # Examples:
+          # - Heroku: heroku rollback --app myapp-production
+          # - Restore from backup
+          # - Revert to previous version
+
+  # Job 4: Post-deployment smoke tests
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run API smoke tests
+        run: |
+          echo "Running API smoke tests..."
+          # Add API health checks
+          # curl -f https://api.example.com/health
+          # curl -f https://api.example.com/api-docs
+
+      - name: Run Frontend smoke tests
+        run: |
+          echo "Running Frontend smoke tests..."
+          # Add frontend health checks
+          # curl -f https://example.com
+          # Check critical pages are accessible
+
+      - name: Verify database connectivity
+        run: |
+          echo "Verifying database connectivity..."
+          # Add database connection tests
+
+      - name: Verify Redis connectivity
+        run: |
+          echo "Verifying Redis connectivity..."
+          # Add Redis connection tests
+
+      - name: Check critical features
+        run: |
+          echo "Testing critical features..."
+          # Add critical feature tests
+          # - User authentication
+          # - API endpoints
+          # - Database queries

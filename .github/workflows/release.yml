@@ -1,0 +1,226 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  NODE_VERSION: '20.x'
+  RUBY_VERSION: '3.3.6'
+
+jobs:
+  # Job 1: Create release
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get commits since last tag
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+
+          # Categorize commits
+          FEATURES=$(echo "$CHANGELOG" | grep "^- feat" || echo "")
+          FIXES=$(echo "$CHANGELOG" | grep "^- fix" || echo "")
+          CHORES=$(echo "$CHANGELOG" | grep "^- chore\|^- docs\|^- style\|^- refactor" || echo "")
+
+          # Build changelog
+          FULL_CHANGELOG="## What's Changed\n\n"
+
+          if [ ! -z "$FEATURES" ]; then
+            FULL_CHANGELOG+="### Features\n${FEATURES}\n\n"
+          fi
+
+          if [ ! -z "$FIXES" ]; then
+            FULL_CHANGELOG+="### Bug Fixes\n${FIXES}\n\n"
+          fi
+
+          if [ ! -z "$CHORES" ]; then
+            FULL_CHANGELOG+="### Maintenance\n${CHORES}\n\n"
+          fi
+
+          # Save to file
+          echo -e "$FULL_CHANGELOG" > CHANGELOG.tmp
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release v${{ steps.get_version.outputs.version }}
+          body_path: CHANGELOG.tmp
+          draft: false
+          prerelease: false
+
+  # Job 2: Build and upload artifacts
+  build-artifacts:
+    name: Build Artifacts
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    strategy:
+      matrix:
+        include:
+          - platform: linux
+            os: ubuntu-latest
+          - platform: macos
+            os: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          working-directory: apps/api
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Create distribution archive
+        run: |
+          mkdir -p dist
+          tar -czf dist/rails-nextjs-${{ matrix.platform }}-v${{ needs.create-release.outputs.version }}.tar.gz \
+            apps/web/.next \
+            apps/web/public \
+            apps/api/app \
+            apps/api/config \
+            apps/api/db \
+            apps/api/lib \
+            apps/api/Gemfile \
+            apps/api/Gemfile.lock \
+            package.json \
+            package-lock.json
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/rails-nextjs-${{ matrix.platform }}-v${{ needs.create-release.outputs.version }}.tar.gz
+          asset_name: rails-nextjs-${{ matrix.platform }}-v${{ needs.create-release.outputs.version }}.tar.gz
+          asset_content_type: application/gzip
+
+  # Job 3: Docker image build and push
+  docker-build:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Rails API image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/api
+          file: ./apps/api/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/rails-nextjs-api:latest
+            ${{ secrets.DOCKER_USERNAME }}/rails-nextjs-api:v${{ needs.create-release.outputs.version }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/rails-nextjs-api:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/rails-nextjs-api:buildcache,mode=max
+
+      - name: Build and push Next.js image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/web
+          file: ./apps/web/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/rails-nextjs-web:latest
+            ${{ secrets.DOCKER_USERNAME }}/rails-nextjs-web:v${{ needs.create-release.outputs.version }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/rails-nextjs-web:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/rails-nextjs-web:buildcache,mode=max
+
+  # Job 4: Notify release
+  notify-release:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    needs: [create-release, build-artifacts, docker-build]
+    if: always()
+
+    steps:
+      - name: Send Slack notification
+        if: success()
+        run: |
+          echo "Sending release notification to Slack..."
+          # Add Slack webhook notification
+          # curl -X POST -H 'Content-type: application/json' \
+          #   --data "{\"text\":\"🚀 New release v${{ needs.create-release.outputs.version }} is now available!\"}" \
+          #   ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send Discord notification
+        if: success()
+        run: |
+          echo "Sending release notification to Discord..."
+          # Add Discord webhook notification
+
+      - name: Create GitHub Discussion
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create a discussion for the release
+            console.log('Creating GitHub discussion for release...');
+            // Add discussion creation logic
