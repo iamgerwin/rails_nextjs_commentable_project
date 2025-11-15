@@ -21,9 +21,10 @@ module Api
         )
 
         if result.success?
+          user = result.value[:user]
           render_success(
             {
-              user: UserSerializer.new(result.value[:user]).as_json,
+              user: UserSerializer.new(user, scope: user).serializable_hash,
               tokens: result.value[:tokens]
             },
             status: :created
@@ -48,9 +49,10 @@ module Api
         )
 
         if result.success?
+          user = result.value[:user]
           render_success(
             {
-              user: UserSerializer.new(result.value[:user]).as_json,
+              user: UserSerializer.new(user, scope: user).serializable_hash,
               tokens: result.value[:tokens]
             }
           )

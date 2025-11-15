@@ -16,7 +16,7 @@ class JsonWebTokenService
     # @param exp [Integer] Expiration time in seconds (optional)
     # @return [String] Encoded JWT token
     def encode(payload, exp: ACCESS_TOKEN_EXPIRATION)
-      payload[:exp] = exp.from_now.to_i
+      payload[:exp] = Time.current.to_i + exp
       payload[:iat] = Time.current.to_i
       JWT.encode(payload, SECRET_KEY, 'HS256')
     end

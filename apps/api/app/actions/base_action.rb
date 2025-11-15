@@ -16,7 +16,7 @@ class BaseAction
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :errors, :value
+  attr_reader :action_errors, :value
 
   # Class method to call the action
   # @return [ActionResult] Result object containing success status, value, and errors
@@ -26,7 +26,7 @@ class BaseAction
   end
 
   def initialize(**args)
-    @errors = []
+    @action_errors = []
     @value = nil
     super
   end
@@ -90,14 +90,14 @@ class BaseAction
   # @param errors [Array<String>] Array of error messages
   # @return [ActionResult]
   def failure(errors:)
-    @errors = Array(errors)
-    ActionResult.new(success: false, value: nil, errors: @errors)
+    @action_errors = Array(errors)
+    ActionResult.new(success: false, value: nil, errors: @action_errors)
   end
 
   # Check if action was successful
   # @return [Boolean]
   def success?
-    @errors.empty?
+    @action_errors.empty?
   end
 
   private
@@ -110,12 +110,13 @@ class BaseAction
 
   # ActionResult class to encapsulate action results
   class ActionResult
-    attr_reader :value, :errors
+    attr_reader :value, :action_errors
+    alias_method :errors, :action_errors
 
     def initialize(success:, value:, errors:)
       @success = success
       @value = value
-      @errors = errors
+      @action_errors = errors
     end
 
     def success?
@@ -127,7 +128,7 @@ class BaseAction
     end
 
     def error_messages
-      @errors.join(', ')
+      @action_errors.join(', ')
     end
   end
 end

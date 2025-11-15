@@ -778,3 +778,79 @@
 [NX v20.8.2 Daemon Server] - 2025-11-15T19:23:34.537Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 5.
 [NX v20.8.2 Daemon Server] - 2025-11-15T19:23:34.558Z - [WATCHER]: Processing file changes in outputs
 [NX v20.8.2 Daemon Server] - 2025-11-15T19:23:36.010Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:43.614Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:44.914Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:45.373Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:46.362Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:46.527Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:46.945Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:47.025Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:47.136Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:47.188Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:24:56.762Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.646Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.648Z - [WATCHER]: 1 file(s) created or restored, 0 file(s) modified, 1 file(s) deleted
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.749Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.749Z - [REQUEST]: apps/api/app/controllers/api/v1/base_controller.rb
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.749Z - [REQUEST]: apps/api/app/controllers/api/v1/base_controller.rb.tmp.71525.1763234725581
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.753Z - [REQUEST]: Responding to the client. handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.753Z - Done responding to the client handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.753Z - Handled HASH_GLOB. Handling time: 1. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.755Z - [REQUEST]: Responding to the client. handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.755Z - Done responding to the client handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.755Z - Handled HASH_GLOB. Handling time: 2. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.755Z - Time taken for 'hash changed files from watcher' 0.20504200000141282ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.756Z - [REQUEST]: Responding to the client. handleGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.756Z - Done responding to the client handleGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.756Z - Handled GLOB. Handling time: 1. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.759Z - [REQUEST]: Responding to the client. handleHashMultiGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.759Z - Done responding to the client handleHashMultiGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.759Z - Handled HASH_GLOB. Handling time: 2. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.785Z - Time taken for 'build-project-configs' 30.9307919999992ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.802Z - [SYNC]: collect registered sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.803Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.803Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:25.803Z - Time taken for 'total execution time for createProjectGraph()' 14.909792000005837ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.100Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.380Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.437Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.501Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.626Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:47.960Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:25:48.061Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:26:11.946Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:26:45.352Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:26:46.419Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:27:37.838Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.088Z - [WATCHER]: 1 file(s) created or restored, 0 file(s) modified, 1 file(s) deleted
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.089Z - [WATCHER]: Processing file changes in outputs
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.189Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.189Z - [REQUEST]: apps/api/app/controllers/api/v1/auth_controller.rb
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.189Z - [REQUEST]: apps/api/app/controllers/api/v1/auth_controller.rb.tmp.71525.1763234924024
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.196Z - Time taken for 'hash changed files from watcher' 0.26662500004749745ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.210Z - [REQUEST]: Responding to the client. handleGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.210Z - Done responding to the client handleGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.210Z - Handled GLOB. Handling time: 1. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.212Z - [REQUEST]: Responding to the client. handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.212Z - Done responding to the client handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.212Z - Handled HASH_GLOB. Handling time: 2. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.214Z - [REQUEST]: Responding to the client. handleHashMultiGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.215Z - Done responding to the client handleHashMultiGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.215Z - Handled HASH_GLOB. Handling time: 1. Response time: 1.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.216Z - [REQUEST]: Responding to the client. handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.216Z - Done responding to the client handleHashGlob
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.216Z - Handled HASH_GLOB. Handling time: 1. Response time: 0.
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.251Z - Time taken for 'build-project-configs' 54.495334000035655ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.267Z - [SYNC]: collect registered sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.268Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.268Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v20.8.2 Daemon Server] - 2025-11-15T19:28:44.268Z - Time taken for 'total execution time for createProjectGraph()' 15.838707999966573ms
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.247Z - Closed a connection. Number of open connections: 5
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.250Z - Closed a connection. Number of open connections: 4
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.250Z - Closed a connection. Number of open connections: 3
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.250Z - Closed a connection. Number of open connections: 2
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.250Z - Closed a connection. Number of open connections: 1
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.250Z - Closed a connection. Number of open connections: 0
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.251Z - [WATCHER]: Stopping the watcher for /Users/gerwin/Developer/_personal/rails_nextjs_commentable_project (sources)
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.251Z - [WATCHER]: Stopping the watcher for /Users/gerwin/Developer/_personal/rails_nextjs_commentable_project (outputs)
+[NX v20.8.2 Daemon Server] - 2025-11-15T22:28:44.259Z - Server stopped because: "10800000ms of inactivity"
