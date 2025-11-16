@@ -329,8 +329,9 @@ All policies implemented with:
    - `Videos::CreateAction`
    - `Videos::UpdateAction`
 
-2. **Observer Pattern**
-   - `AuditableObserver` - Automatic audit logging
+2. **Concern Pattern** (replaces Observer)
+   - `Auditable` concern - Automatic audit logging via model callbacks
+   - Included in User, Video, Post, Comment, Reaction, and Report models
 
 3. **Strategy Pattern**
    - Placeholder for cache strategies
@@ -455,6 +456,8 @@ apps/api/
 │   │   └── concerns/
 │   │       └── authenticable.rb
 │   ├── models/
+│   │   ├── concerns/
+│   │   │   └── auditable.rb
 │   │   ├── user.rb
 │   │   ├── video.rb
 │   │   ├── post.rb
@@ -462,8 +465,6 @@ apps/api/
 │   │   ├── reaction.rb
 │   │   ├── report.rb
 │   │   └── audit_log.rb
-│   ├── observers/
-│   │   └── auditable_observer.rb
 │   ├── policies/
 │   │   ├── application_policy.rb
 │   │   ├── user_policy.rb
@@ -714,7 +715,7 @@ The Rails API backend is now fully implemented with:
 ✅ Soft delete support
 ✅ State machines for workflows
 ✅ Action pattern for business logic
-✅ Observer pattern for audit logging
+✅ Auditable concern for automatic audit logging
 ✅ Comprehensive API documentation
 ✅ Ransack usage guide
 ✅ Proper error handling
