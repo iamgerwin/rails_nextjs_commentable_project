@@ -113,10 +113,9 @@ function ReportsManagementContent() {
     const variants: Record<ReportReason, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       [ReportReason.SPAM]: 'destructive',
       [ReportReason.HARASSMENT]: 'destructive',
-      [ReportReason.HATE_SPEECH]: 'destructive',
+      [ReportReason.INAPPROPRIATE]: 'secondary',
       [ReportReason.MISINFORMATION]: 'secondary',
-      [ReportReason.INAPPROPRIATE_CONTENT]: 'secondary',
-      [ReportReason.COPYRIGHT_VIOLATION]: 'outline',
+      [ReportReason.COPYRIGHT]: 'outline',
       [ReportReason.OTHER]: 'outline',
     };
 
