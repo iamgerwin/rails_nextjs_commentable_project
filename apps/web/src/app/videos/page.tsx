@@ -14,7 +14,6 @@ export default function VideosPage() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
 
   const perPage = 12;
@@ -43,7 +42,6 @@ export default function VideosPage() {
 
         setVideos(data);
         setTotalPages(meta?.totalPages || 1);
-        setTotalCount(meta?.totalCount || data.length);
       }
     } catch (error) {
       console.error('Failed to fetch videos:', error);
