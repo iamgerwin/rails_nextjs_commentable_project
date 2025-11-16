@@ -13416,6 +13416,11 @@
       },
       {
         "source": "web",
+        "target": "npm:lucide-react",
+        "type": "static"
+      },
+      {
+        "source": "web",
         "target": "@workspace/shared-types",
         "type": "static"
       },
@@ -31096,5 +31101,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1763234924264
+  "computedAt": 1763252076577
 }

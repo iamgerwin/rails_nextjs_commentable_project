@@ -160,7 +160,7 @@ export function DataTable<T extends Record<string, any>>({
                   </div>
                 </TableCell>
               </TableRow>
-            ) : data.length === 0 ? (
+            ) : !data || data.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={columns.length + (actions ? 1 : 0)}

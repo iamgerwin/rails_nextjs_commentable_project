@@ -37,172 +37,12 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".nxignore",
-        "hash": "10750724591408604683"
-      },
-      {
-        "file": "apps/api/bin/thrust",
-        "hash": "664259867265195805"
-      },
-      {
-        "file": "apps/api/config/locales/en.yml",
-        "hash": "10933050726774488969"
-      },
-      {
-        "file": "apps/api/app/actions/videos/create_action.rb",
-        "hash": "4435743998069433237"
-      },
-      {
-        "file": "apps/api/README.md",
-        "hash": "4488163242024225200"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/admin/audit_logs_controller.rb",
-        "hash": "9697723269856732515"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000004_create_posts.rb",
-        "hash": "4635195191708903026"
-      },
-      {
-        "file": "apps/api/bin/bundler-audit",
-        "hash": "14976141779620294152"
-      },
-      {
-        "file": "apps/api/app/models/user.rb",
-        "hash": "5887306413220536011"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/auth_controller.rb",
-        "hash": "1982356554060518729"
-      },
-      {
-        "file": "apps/api/app/models/audit_log.rb",
-        "hash": "1276916840811831904"
-      },
-      {
-        "file": "apps/api/.ruby-version",
-        "hash": "8820565108598781121"
-      },
-      {
-        "file": "apps/api/config/cable.yml",
-        "hash": "6749686400938673547"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000008_create_audit_logs.rb",
-        "hash": "8842039863887503059"
-      },
-      {
-        "file": ".github/workflows/dependency-updates.yml",
-        "hash": "7268444877316128410"
-      },
-      {
-        "file": "apps/api/public/robots.txt",
-        "hash": "15387002626411925241"
-      },
-      {
-        "file": ".github/markdown-link-check-config.json",
-        "hash": "15505169889656734166"
-      },
-      {
-        "file": "apps/api/config/environments/production.rb",
-        "hash": "6154372168701463717"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000003_create_videos.rb",
-        "hash": "4523887683028928725"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000001_enable_uuid_extension.rb",
-        "hash": "4682263105823331241"
-      },
-      {
-        "file": "apps/api/app/models/post.rb",
-        "hash": "4835196768191743519"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000006_create_reactions.rb",
-        "hash": "8976115982230120944"
-      },
-      {
-        "file": "apps/api/vendor/.keep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/api/app/serializers/post_serializer.rb",
-        "hash": "5918117870847904538"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/reactions_controller.rb",
-        "hash": "12933168804032386745"
-      },
-      {
-        "file": "apps/api/app/policies/comment_policy.rb",
-        "hash": "18250831751066521264"
-      },
-      {
-        "file": "apps/api/spec/factories/users.rb",
-        "hash": "7491960663230529822"
-      },
-      {
-        "file": "apps/api/docs/API_DOCUMENTATION.md",
-        "hash": "13972476614753283101"
-      },
-      {
-        "file": "nx.json",
-        "hash": "14518346110160689730"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/admin/base_controller.rb",
-        "hash": "17493276493375133521"
-      },
-      {
-        "file": "AUTHENTICATION_SETUP_COMPLETE.md",
-        "hash": "16043328294636612894"
-      },
-      {
-        "file": "apps/api/Rakefile",
-        "hash": "10097158866463245135"
-      },
-      {
-        "file": "apps/api/.dockerignore",
-        "hash": "5972655131272289813"
-      },
-      {
         "file": "eslint.config.mjs",
         "hash": "3462096019013144053"
       },
       {
-        "file": "apps/api/app/serializers/comment_serializer.rb",
-        "hash": "670407031472159123"
-      },
-      {
-        "file": "README.md",
-        "hash": "15280602309757880712"
-      },
-      {
-        "file": "apps/api/spec/factories/comments.rb",
-        "hash": "3726320194416352174"
-      },
-      {
-        "file": "apps/api/bin/rubocop",
-        "hash": "17160894861948970588"
-      },
-      {
-        "file": "apps/api/app/views/layouts/mailer.html.erb",
-        "hash": "939942818340873076"
-      },
-      {
-        "file": "apps/api/spec/factories/audit_logs.rb",
-        "hash": "9325355254952091159"
-      },
-      {
-        "file": "apps/api/bin/ci",
-        "hash": "14423070856121216355"
-      },
-      {
-        "file": "apps/api/log/.keep",
-        "hash": "3244421341483603138"
+        "file": "apps/api/app/controllers/api/v1/users_controller.rb",
+        "hash": "10169393033676389056"
       },
       {
         "file": "apps/api/tmp/.keep",
@@ -213,112 +53,240 @@
         "hash": "1704058885739857627"
       },
       {
-        "file": "apps/api/bin/dev",
-        "hash": "9225266369006289299"
+        "file": "apps/api/app/controllers/api/v1/reactions_controller.rb",
+        "hash": "12933168804032386745"
       },
       {
-        "file": "apps/api/app/controllers/api/v1/admin/reports_controller.rb",
-        "hash": "7572860488966095077"
+        "file": "apps/api/config/puma.rb",
+        "hash": "4988840249736619159"
       },
       {
-        "file": "apps/api/config/bundler-audit.yml",
-        "hash": "13190107884186654150"
+        "file": "apps/api/db/migrate/20241116000006_create_reactions.rb",
+        "hash": "8976115982230120944"
       },
       {
-        "file": "apps/api/config/storage.yml",
-        "hash": "1141000203752293988"
+        "file": "apps/api/bin/docker-entrypoint",
+        "hash": "919846489138374770"
       },
       {
-        "file": "apps/api/app/middleware/jwt_authentication.rb",
-        "hash": "7988745702637895728"
+        "file": "apps/api/spec/factories/audit_logs.rb",
+        "hash": "9325355254952091159"
       },
       {
-        "file": ".env.example",
-        "hash": "3289839733184668694"
+        "file": "apps/api/app/actions/users/register_action.rb",
+        "hash": "5371420041266879303"
+      },
+      {
+        "file": "FRONTEND_SETUP_SUMMARY.md",
+        "hash": "9136690545876078921"
       },
       {
         "file": "apps/api/app/services/json_web_token_service.rb",
-        "hash": "16224271031180700143"
+        "hash": "2089210348173547258"
       },
       {
-        "file": "apps/api/app/actions/users/login_action.rb",
-        "hash": "10961977928301675495"
+        "file": "apps/api/spec/factories/posts.rb",
+        "hash": "15509338079609876448"
       },
       {
-        "file": "apps/api/app/policies/user_policy.rb",
-        "hash": "8040349631480235873"
+        "file": "apps/api/app/policies/reaction_policy.rb",
+        "hash": "16060206182808682934"
       },
       {
-        "file": "apps/api/config/initializers/filter_parameter_logging.rb",
-        "hash": "1908105582416789108"
+        "file": "apps/api/app/serializers/reaction_serializer.rb",
+        "hash": "5053980977525922801"
       },
       {
-        "file": "apps/api/app/actions/videos/update_action.rb",
-        "hash": "15994329702885067973"
+        "file": ".github/workflows/health-check.yml",
+        "hash": "11774403091107742697"
+      },
+      {
+        "file": ".github/workflows/dependency-updates.yml",
+        "hash": "7268444877316128410"
+      },
+      {
+        "file": "apps/api/db/seeds.rb",
+        "hash": "15431083901773814769"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000007_create_reports.rb",
+        "hash": "10399053649694726244"
       },
       {
         "file": "apps/api/.github/workflows/ci.yml",
         "hash": "16167492990127525677"
       },
       {
+        "file": "apps/api/app/actions/videos/create_action.rb",
+        "hash": "4435743998069433237"
+      },
+      {
+        "file": "apps/api/docs/IMPLEMENTATION_SUMMARY.md",
+        "hash": "16782139694440203145"
+      },
+      {
+        "file": "apps/api/Dockerfile",
+        "hash": "4314299548081230876"
+      },
+      {
+        "file": "apps/api/config/environments/test.rb",
+        "hash": "1349016298491779767"
+      },
+      {
+        "file": "apps/api/config/environments/production.rb",
+        "hash": "6154372168701463717"
+      },
+      {
+        "file": "apps/api/app/models/application_record.rb",
+        "hash": "8518753903179674009"
+      },
+      {
+        "file": "apps/api/bin/bundler-audit",
+        "hash": "14976141779620294152"
+      },
+      {
         "file": "apps/api/app/controllers/api/v1/admin/users_controller.rb",
         "hash": "4912331712224448329"
       },
       {
-        "file": "apps/api/bin/rake",
-        "hash": "17017324555533603816"
-      },
-      {
-        "file": "apps/api/app/models/video.rb",
-        "hash": "7884239941961920016"
-      },
-      {
-        "file": "apps/api/app/models/concerns/.keep",
+        "file": "apps/api/script/.keep",
         "hash": "3244421341483603138"
       },
       {
-        "file": "apps/api/app/controllers/application_controller.rb",
-        "hash": "4653244506013638885"
+        "file": "apps/api/bin/setup",
+        "hash": "12367389490694545368"
       },
       {
-        "file": "apps/api/app/controllers/api/v1/admin/statistics_controller.rb",
-        "hash": "4452629196497560258"
+        "file": "apps/api/storage/.keep",
+        "hash": "3244421341483603138"
       },
       {
-        "file": "apps/api/app/views/layouts/mailer.text.erb",
-        "hash": "9999453037333586355"
+        "file": "apps/api/.dockerignore",
+        "hash": "5972655131272289813"
       },
       {
         "file": "apps/api/db/migrate/20241116000002_create_users.rb",
         "hash": "1526867566376438822"
       },
       {
-        "file": "apps/api/app/controllers/api/v1/users_controller.rb",
-        "hash": "2013728940044287465"
+        "file": "apps/api/app/middleware/jwt_authentication.rb",
+        "hash": "7988745702637895728"
       },
       {
-        "file": ".github/workflows/release.yml",
-        "hash": "7625027365032044331"
+        "file": "docs/api/versioning.md",
+        "hash": "11841474387111268290"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/admin/audit_logs_controller.rb",
+        "hash": "9697723269856732515"
+      },
+      {
+        "file": "apps/api/app/policies/application_policy.rb",
+        "hash": "13489648711480041883"
+      },
+      {
+        "file": "apps/api/app/jobs/application_job.rb",
+        "hash": "1939387517650824857"
       },
       {
         "file": "apps/api/config.ru",
         "hash": "18125882253053798174"
       },
       {
-        "file": "tsconfig.base.json",
-        "hash": "987338486554284405"
+        "file": "apps/api/config/storage.yml",
+        "hash": "1141000203752293988"
       },
       {
-        "file": "apps/api/config/environment.rb",
-        "hash": "2323662549509141454"
+        "file": "apps/api/config/environments/development.rb",
+        "hash": "7378379146635924502"
       },
       {
-        "file": "apps/api/lib/tasks/.keep",
+        "file": "apps/api/config/initializers/filter_parameter_logging.rb",
+        "hash": "1908105582416789108"
+      },
+      {
+        "file": "apps/api/bin/dev",
+        "hash": "9225266369006289299"
+      },
+      {
+        "file": "apps/api/app/models/reaction.rb",
+        "hash": "16110886730148475852"
+      },
+      {
+        "file": "apps/api/public/robots.txt",
+        "hash": "15387002626411925241"
+      },
+      {
+        "file": ".github/workflows/cd.yml",
+        "hash": "14772563699317586927"
+      },
+      {
+        "file": "apps/api/app/controllers/concerns/.keep",
         "hash": "3244421341483603138"
       },
       {
-        "file": "apps/api/storage/.keep",
-        "hash": "3244421341483603138"
+        "file": ".env.example",
+        "hash": "3289839733184668694"
+      },
+      {
+        "file": "apps/api/config/boot.rb",
+        "hash": "3965342948655208316"
+      },
+      {
+        "file": ".github/markdown-link-check-config.json",
+        "hash": "15505169889656734166"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/health_controller.rb",
+        "hash": "1451999267280797795"
+      },
+      {
+        "file": "AUTHENTICATION_SETUP_COMPLETE.md",
+        "hash": "16043328294636612894"
+      },
+      {
+        "file": "apps/api/config/cable.yml",
+        "hash": "6749686400938673547"
+      },
+      {
+        "file": "nx.json",
+        "hash": "14518346110160689730"
+      },
+      {
+        "file": "apps/api/.ruby-version",
+        "hash": "8820565108598781121"
+      },
+      {
+        "file": "apps/api/.rubocop.yml",
+        "hash": "10914095101910691101"
+      },
+      {
+        "file": "apps/api/spec/factories/users.rb",
+        "hash": "7491960663230529822"
+      },
+      {
+        "file": "apps/api/config/initializers/jwt_middleware.rb",
+        "hash": "8379058388533700789"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/admin/reports_controller.rb",
+        "hash": "7572860488966095077"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000008_create_audit_logs.rb",
+        "hash": "8842039863887503059"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "hash": "7625027365032044331"
+      },
+      {
+        "file": "apps/api/bin/rails",
+        "hash": "3150265248774815004"
+      },
+      {
+        "file": "apps/api/Rakefile",
+        "hash": "10097158866463245135"
       },
       {
         "file": "apps/api/Gemfile",
@@ -329,388 +297,339 @@
         "hash": "15105628478092307096"
       },
       {
-        "file": "docs/api/versioning.md",
-        "hash": "11841474387111268290"
+        "file": "apps/api/app/controllers/api/v1/auth_controller.rb",
+        "hash": "11531723871985654898"
       },
       {
-        "file": "CI_CD_SETUP.md",
-        "hash": "14830285792061684899"
+        "file": "apps/api/docs/API_DOCUMENTATION.md",
+        "hash": "13972476614753283101"
       },
       {
-        "file": "package-lock.json",
-        "hash": "16593191853805168353"
-      },
-      {
-        "file": "apps/api/app/policies/application_policy.rb",
-        "hash": "13489648711480041883"
-      },
-      {
-        "file": "apps/api/app/models/application_record.rb",
-        "hash": "8518753903179674009"
-      },
-      {
-        "file": "apps/api/spec/factories/videos.rb",
-        "hash": "9553726699199864821"
-      },
-      {
-        "file": "apps/api/app/models/comment.rb",
-        "hash": "1873986273267343604"
-      },
-      {
-        "file": "apps/api/script/.keep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/api/.github/dependabot.yml",
-        "hash": "10380155142814728573"
-      },
-      {
-        "file": "apps/api/config/ci.rb",
-        "hash": "13955601043531647231"
-      },
-      {
-        "file": "apps/api/Gemfile.lock",
-        "hash": "8689235655425613917"
-      },
-      {
-        "file": "apps/api/config/environments/test.rb",
-        "hash": "1349016298491779767"
-      },
-      {
-        "file": "apps/api/config/environments/development.rb",
-        "hash": "7378379146635924502"
-      },
-      {
-        "file": "apps/api/app/controllers/concerns/authenticable.rb",
-        "hash": "13559740045825349891"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/reports_controller.rb",
-        "hash": "679082529611105008"
-      },
-      {
-        "file": ".github/workflows/health-check.yml",
-        "hash": "11774403091107742697"
-      },
-      {
-        "file": "apps/api/app/serializers/reaction_serializer.rb",
-        "hash": "5053980977525922801"
-      },
-      {
-        "file": "apps/api/config/routes.rb",
-        "hash": "16178047821753532112"
-      },
-      {
-        "file": "package.json",
-        "hash": "12350669912761377047"
-      },
-      {
-        "file": "apps/api/config/database.yml",
-        "hash": "12101809542888789508"
-      },
-      {
-        "file": "apps/api/app/jobs/application_job.rb",
-        "hash": "1939387517650824857"
-      },
-      {
-        "file": "apps/api/config/boot.rb",
-        "hash": "3965342948655208316"
-      },
-      {
-        "file": "docs/ci-cd/github-actions.md",
-        "hash": "16720769063033525959"
-      },
-      {
-        "file": "apps/api/bin/rails",
-        "hash": "3150265248774815004"
-      },
-      {
-        "file": "run.sh",
-        "hash": "3745735648165273805"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "14688272390704683536"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/posts_controller.rb",
-        "hash": "15073405604296362233"
-      },
-      {
-        "file": "docs/api/README.md",
-        "hash": "13090737789073989543"
-      },
-      {
-        "file": "apps/api/db/migrate/20241116000005_create_comments.rb",
-        "hash": "16415806003926508854"
-      },
-      {
-        "file": "apps/api/app/controllers/concerns/.keep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "apps/api/config/initializers/jwt_middleware.rb",
-        "hash": "8379058388533700789"
-      },
-      {
-        "file": "apps/api/spec/factories/posts.rb",
-        "hash": "15509338079609876448"
-      },
-      {
-        "file": "FRONTEND_PROGRESS_UPDATE.md",
-        "hash": "10331419492626436391"
-      },
-      {
-        "file": "FRONTEND_SETUP_SUMMARY.md",
-        "hash": "9136690545876078921"
-      },
-      {
-        "file": "apps/api/db/migrate/20251115174040_rename_audit_log_changes.rb",
-        "hash": "873420582615837404"
-      },
-      {
-        "file": ".github/workflows/cd.yml",
-        "hash": "14772563699317586927"
-      },
-      {
-        "file": ".github/workflows/ci.yml",
-        "hash": "12216866207708310749"
-      },
-      {
-        "file": ".github/workflows/code-quality.yml",
-        "hash": "8659160699205129914"
-      },
-      {
-        "file": "apps/api/config/initializers/cors.rb",
-        "hash": "6650906784132297263"
-      },
-      {
-        "file": "apps/api/app/policies/report_policy.rb",
-        "hash": "5116993085118072672"
-      },
-      {
-        "file": "apps/api/app/models/reaction.rb",
-        "hash": "16110886730148475852"
-      },
-      {
-        "file": "apps/api/app/actions/base_action.rb",
-        "hash": "14669279739875535270"
-      },
-      {
-        "file": "apps/api/spec/factories/reactions.rb",
-        "hash": "15878628978101017100"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/health_controller.rb",
-        "hash": "1451999267280797795"
-      },
-      {
-        "file": "docs/database/schema.md",
-        "hash": "14683937507269999969"
-      },
-      {
-        "file": "apps/api/Dockerfile",
-        "hash": "4314299548081230876"
-      },
-      {
-        "file": "apps/api/bin/brakeman",
-        "hash": "18275692223627504685"
-      },
-      {
-        "file": "apps/api/bin/docker-entrypoint",
-        "hash": "919846489138374770"
-      },
-      {
-        "file": "apps/api/app/actions/users/register_action.rb",
-        "hash": "5371420041266879303"
-      },
-      {
-        "file": "apps/api/app/observers/auditable_observer.rb",
-        "hash": "396456967207926570"
-      },
-      {
-        "file": "apps/api/app/mailers/application_mailer.rb",
-        "hash": "13406107060336696501"
-      },
-      {
-        "file": "apps/api/app/serializers/report_serializer.rb",
-        "hash": "2089818746861478337"
-      },
-      {
-        "file": "apps/api/spec/factories/reports.rb",
-        "hash": "2925762155980620398"
-      },
-      {
-        "file": "apps/api/bin/setup",
-        "hash": "12367389490694545368"
-      },
-      {
-        "file": "apps/api/app/policies/video_policy.rb",
-        "hash": "10284837294529359600"
-      },
-      {
-        "file": "apps/api/config/puma.rb",
-        "hash": "4988840249736619159"
-      },
-      {
-        "file": "apps/api/config/credentials.yml.enc",
-        "hash": "17409045947673586441"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/base_controller.rb",
-        "hash": "8594301829418603432"
-      },
-      {
-        "file": "apps/api/config/initializers/ransack.rb",
-        "hash": "11478597546689627833"
-      },
-      {
-        "file": "apps/api/app/policies/reaction_policy.rb",
-        "hash": "16060206182808682934"
-      },
-      {
-        "file": "apps/api/config/initializers/inflections.rb",
-        "hash": "1981086625441179320"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/comments_controller.rb",
-        "hash": "13388183097620992767"
-      },
-      {
-        "file": "apps/api/docs/RANSACK_GUIDE.md",
-        "hash": "5226718939858832714"
-      },
-      {
-        "file": "apps/api/app/models/report.rb",
-        "hash": "13413877438913631750"
-      },
-      {
-        "file": "docs/architecture/erd.md",
-        "hash": "15500269900132730552"
-      },
-      {
-        "file": "apps/api/.rubocop.yml",
-        "hash": "10914095101910691101"
-      },
-      {
-        "file": "apps/api/db/seeds.rb",
-        "hash": "15431083901773814769"
-      },
-      {
-        "file": "apps/api/app/controllers/api/v1/videos_controller.rb",
-        "hash": "10750496046511385704"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "2616470947539361222"
-      },
-      {
-        "file": "apps/api/app/serializers/video_serializer.rb",
-        "hash": "13747988849989858193"
+        "file": "apps/api/config/environment.rb",
+        "hash": "2323662549509141454"
       },
       {
         "file": ".prettierrc",
         "hash": "16267754514737964994"
       },
       {
-        "file": "apps/api/docs/IMPLEMENTATION_SUMMARY.md",
-        "hash": "16782139694440203145"
+        "file": "apps/api/app/serializers/report_serializer.rb",
+        "hash": "2089818746861478337"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000003_create_videos.rb",
+        "hash": "4523887683028928725"
+      },
+      {
+        "file": "apps/api/bin/rubocop",
+        "hash": "17160894861948970588"
+      },
+      {
+        "file": "apps/api/app/serializers/comment_serializer.rb",
+        "hash": "670407031472159123"
+      },
+      {
+        "file": "apps/api/app/controllers/concerns/authenticable.rb",
+        "hash": "13559740045825349891"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "987338486554284405"
+      },
+      {
+        "file": "apps/api/config/locales/en.yml",
+        "hash": "10933050726774488969"
+      },
+      {
+        "file": "apps/api/bin/thrust",
+        "hash": "664259867265195805"
+      },
+      {
+        "file": "apps/api/spec/factories/videos.rb",
+        "hash": "9553726699199864821"
+      },
+      {
+        "file": ".nxignore",
+        "hash": "10750724591408604683"
+      },
+      {
+        "file": ".github/workflows/code-quality.yml",
+        "hash": "8659160699205129914"
+      },
+      {
+        "file": "apps/api/app/models/post.rb",
+        "hash": "4835196768191743519"
+      },
+      {
+        "file": "apps/api/app/policies/video_policy.rb",
+        "hash": "10284837294529359600"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/comments_controller.rb",
+        "hash": "13388183097620992767"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2616470947539361222"
+      },
+      {
+        "file": "apps/api/docs/RANSACK_GUIDE.md",
+        "hash": "5226718939858832714"
+      },
+      {
+        "file": "run.sh",
+        "hash": "3745735648165273805"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/videos_controller.rb",
+        "hash": "10750496046511385704"
+      },
+      {
+        "file": "apps/api/db/migrate/20251115174040_rename_audit_log_changes.rb",
+        "hash": "873420582615837404"
+      },
+      {
+        "file": "apps/api/app/views/layouts/mailer.text.erb",
+        "hash": "9999453037333586355"
+      },
+      {
+        "file": "apps/api/app/models/audit_log.rb",
+        "hash": "1276916840811831904"
+      },
+      {
+        "file": "apps/api/bin/brakeman",
+        "hash": "18275692223627504685"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000005_create_comments.rb",
+        "hash": "16415806003926508854"
+      },
+      {
+        "file": "apps/api/app/views/layouts/mailer.html.erb",
+        "hash": "939942818340873076"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/posts_controller.rb",
+        "hash": "15073405604296362233"
       },
       {
         "file": "apps/api/app/serializers/user_serializer.rb",
         "hash": "14588939982894019899"
       },
       {
-        "file": "apps/api/db/migrate/20241116000007_create_reports.rb",
-        "hash": "10399053649694726244"
+        "file": "apps/api/bin/ci",
+        "hash": "14423070856121216355"
+      },
+      {
+        "file": "apps/api/config/bundler-audit.yml",
+        "hash": "13190107884186654150"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/reports_controller.rb",
+        "hash": "679082529611105008"
+      },
+      {
+        "file": "package.json",
+        "hash": "12350669912761377047"
+      },
+      {
+        "file": "docs/api/README.md",
+        "hash": "13090737789073989543"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/base_controller.rb",
+        "hash": "8594301829418603432"
+      },
+      {
+        "file": "apps/api/config/routes.rb",
+        "hash": "16178047821753532112"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "12216866207708310749"
+      },
+      {
+        "file": "apps/api/lib/tasks/.keep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "apps/api/spec/factories/reports.rb",
+        "hash": "2925762155980620398"
+      },
+      {
+        "file": "apps/api/app/models/report.rb",
+        "hash": "13413877438913631750"
+      },
+      {
+        "file": "apps/api/app/actions/base_action.rb",
+        "hash": "763768164487060573"
+      },
+      {
+        "file": "apps/api/app/models/comment.rb",
+        "hash": "1873986273267343604"
+      },
+      {
+        "file": "apps/api/app/policies/comment_policy.rb",
+        "hash": "18250831751066521264"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000004_create_posts.rb",
+        "hash": "4635195191708903026"
+      },
+      {
+        "file": "apps/api/log/.keep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "CI_CD_SETUP.md",
+        "hash": "14830285792061684899"
+      },
+      {
+        "file": "apps/api/db/migrate/20241116000001_enable_uuid_extension.rb",
+        "hash": "4682263105823331241"
+      },
+      {
+        "file": "apps/api/bin/rake",
+        "hash": "17017324555533603816"
+      },
+      {
+        "file": "apps/api/config/initializers/ransack.rb",
+        "hash": "11478597546689627833"
+      },
+      {
+        "file": "README.md",
+        "hash": "15280602309757880712"
+      },
+      {
+        "file": "apps/api/spec/factories/reactions.rb",
+        "hash": "15878628978101017100"
+      },
+      {
+        "file": "apps/api/app/serializers/post_serializer.rb",
+        "hash": "5918117870847904538"
+      },
+      {
+        "file": "apps/api/config/ci.rb",
+        "hash": "13955601043531647231"
+      },
+      {
+        "file": "apps/api/config/credentials.yml.enc",
+        "hash": "17409045947673586441"
+      },
+      {
+        "file": "apps/api/vendor/.keep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "apps/api/app/models/user.rb",
+        "hash": "5887306413220536011"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "16593191853805168353"
+      },
+      {
+        "file": "apps/api/app/policies/report_policy.rb",
+        "hash": "5116993085118072672"
+      },
+      {
+        "file": "apps/api/app/actions/users/login_action.rb",
+        "hash": "10961977928301675495"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/admin/statistics_controller.rb",
+        "hash": "4452629196497560258"
+      },
+      {
+        "file": "apps/api/app/actions/videos/update_action.rb",
+        "hash": "15994329702885067973"
+      },
+      {
+        "file": "docs/ci-cd/github-actions.md",
+        "hash": "16720769063033525959"
+      },
+      {
+        "file": "apps/api/app/mailers/application_mailer.rb",
+        "hash": "13406107060336696501"
+      },
+      {
+        "file": "FRONTEND_PROGRESS_UPDATE.md",
+        "hash": "10331419492626436391"
+      },
+      {
+        "file": "apps/api/Gemfile.lock",
+        "hash": "8689235655425613917"
+      },
+      {
+        "file": "apps/api/README.md",
+        "hash": "4488163242024225200"
+      },
+      {
+        "file": "apps/api/.github/dependabot.yml",
+        "hash": "10380155142814728573"
       },
       {
         "file": "RUN_SCRIPT_IMPROVEMENTS.md",
         "hash": "3937617343544984451"
+      },
+      {
+        "file": "docs/database/schema.md",
+        "hash": "14683937507269999969"
+      },
+      {
+        "file": "apps/api/app/models/concerns/.keep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "apps/api/app/observers/auditable_observer.rb",
+        "hash": "396456967207926570"
+      },
+      {
+        "file": "apps/api/config/initializers/inflections.rb",
+        "hash": "1981086625441179320"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "14688272390704683536"
+      },
+      {
+        "file": "apps/api/app/controllers/application_controller.rb",
+        "hash": "4653244506013638885"
+      },
+      {
+        "file": "apps/api/spec/factories/comments.rb",
+        "hash": "3726320194416352174"
+      },
+      {
+        "file": "apps/api/app/models/video.rb",
+        "hash": "7884239941961920016"
+      },
+      {
+        "file": "apps/api/config/initializers/cors.rb",
+        "hash": "6650906784132297263"
+      },
+      {
+        "file": "apps/api/app/controllers/api/v1/admin/base_controller.rb",
+        "hash": "17493276493375133521"
+      },
+      {
+        "file": "apps/api/config/database.yml",
+        "hash": "12101809542888789508"
+      },
+      {
+        "file": "docs/architecture/erd.md",
+        "hash": "15500269900132730552"
+      },
+      {
+        "file": "apps/api/app/serializers/video_serializer.rb",
+        "hash": "13747988849989858193"
+      },
+      {
+        "file": "apps/api/app/policies/user_policy.rb",
+        "hash": "8040349631480235873"
       }
     ],
     "projectFileMap": {
-      "@workspace/shared-enums": [
-        {
-          "file": "packages/shared-enums/package.json",
-          "hash": "13074048087450368297"
-        },
-        {
-          "file": "packages/shared-enums/src/index.ts",
-          "hash": "3842160429764363222"
-        },
-        {
-          "file": "packages/shared-enums/tsconfig.json",
-          "hash": "16022896144540171575"
-        }
-      ],
-      "@workspace/shared-config": [
-        {
-          "file": "packages/shared-config/package.json",
-          "hash": "11512784263383560657"
-        },
-        {
-          "file": "packages/shared-config/src/index.ts",
-          "hash": "8903319168609866940"
-        },
-        {
-          "file": "packages/shared-config/tsconfig.json",
-          "hash": "16022896144540171575"
-        }
-      ],
-      "web-e2e": [
-        {
-          "file": "apps/web-e2e/eslint.config.mjs",
-          "hash": "1172734138943286526",
-          "deps": [
-            "npm:eslint-plugin-playwright"
-          ]
-        },
-        {
-          "file": "apps/web-e2e/playwright.config.ts",
-          "hash": "6975108410158112420",
-          "deps": [
-            "npm:@playwright/test",
-            "npm:@nx/playwright",
-            "npm:@nx/devkit"
-          ]
-        },
-        {
-          "file": "apps/web-e2e/project.json",
-          "hash": "236892884893949848"
-        },
-        {
-          "file": "apps/web-e2e/src/example.spec.ts",
-          "hash": "16019101014373124625",
-          "deps": [
-            "npm:@playwright/test"
-          ]
-        },
-        {
-          "file": "apps/web-e2e/tsconfig.json",
-          "hash": "18107275616570252607"
-        }
-      ],
-      "@workspace/shared-types": [
-        {
-          "file": "packages/shared-types/package.json",
-          "hash": "5131872544249983842",
-          "deps": [
-            "@workspace/shared-enums"
-          ]
-        },
-        {
-          "file": "packages/shared-types/src/index.ts",
-          "hash": "3399085148607569186",
-          "deps": [
-            "@workspace/shared-enums"
-          ]
-        },
-        {
-          "file": "packages/shared-types/tsconfig.json",
-          "hash": "16022896144540171575"
-        }
-      ],
       "web": [
         {
           "file": "apps/web/.swcrc",
@@ -806,8 +725,69 @@
           ]
         },
         {
+          "file": "apps/web/src/app/dashboard/comments/page.tsx",
+          "hash": "5253414840391724178",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/my-comments/page.tsx",
+          "hash": "1712538991870040995",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/my-posts/page.tsx",
+          "hash": "11231594251469886291",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/my-videos/page.tsx",
+          "hash": "1845955510372074128",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
           "file": "apps/web/src/app/dashboard/page.tsx",
-          "hash": "17752265100583609850"
+          "hash": "11484641798945568769",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/posts/page.tsx",
+          "hash": "14905634107507753772",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/reports/page.tsx",
+          "hash": "5133852153571303028",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/users/page.tsx",
+          "hash": "11144543568660582634",
+          "deps": [
+            "npm:react",
+            "@workspace/shared-types",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/dashboard/videos/page.tsx",
+          "hash": "6659816716930610798",
+          "deps": [
+            "npm:lucide-react"
+          ]
         },
         {
           "file": "apps/web/src/app/global.css",
@@ -843,6 +823,35 @@
             "npm:next",
             "@workspace/shared-types"
           ]
+        },
+        {
+          "file": "apps/web/src/components/dashboard/dashboard-layout.tsx",
+          "hash": "5451288259759406573",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/dashboard/navigation-menu.tsx",
+          "hash": "10521538187783925732",
+          "deps": [
+            "npm:next",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/data-table/data-table.tsx",
+          "hash": "4035558499298789976",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/data-table/index.ts",
+          "hash": "18281063629464716406"
         },
         {
           "file": "apps/web/src/components/layout/navbar.tsx",
@@ -926,6 +935,13 @@
           ]
         },
         {
+          "file": "apps/web/src/components/ui/table.tsx",
+          "hash": "12220893068497995597",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
           "file": "apps/web/src/components/ui/textarea.tsx",
           "hash": "11500692197031149961",
           "deps": [
@@ -934,7 +950,7 @@
         },
         {
           "file": "apps/web/src/contexts/auth-context.tsx",
-          "hash": "7393389700096844890",
+          "hash": "2439149851168911892",
           "deps": [
             "npm:react",
             "@workspace/shared-types"
@@ -954,6 +970,13 @@
           "hash": "5830735897736001364",
           "deps": [
             "npm:@tanstack/react-query",
+            "@workspace/shared-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/hooks/use-permissions.ts",
+          "hash": "12126437595207501027",
+          "deps": [
             "@workspace/shared-types"
           ]
         },
@@ -1057,6 +1080,87 @@
         {
           "file": "apps/web/tsconfig.json",
           "hash": "4074060735213064184"
+        }
+      ],
+      "@workspace/shared-enums": [
+        {
+          "file": "packages/shared-enums/package.json",
+          "hash": "13074048087450368297"
+        },
+        {
+          "file": "packages/shared-enums/src/index.ts",
+          "hash": "3842160429764363222"
+        },
+        {
+          "file": "packages/shared-enums/tsconfig.json",
+          "hash": "16022896144540171575"
+        }
+      ],
+      "@workspace/shared-types": [
+        {
+          "file": "packages/shared-types/package.json",
+          "hash": "5131872544249983842",
+          "deps": [
+            "@workspace/shared-enums"
+          ]
+        },
+        {
+          "file": "packages/shared-types/src/index.ts",
+          "hash": "3399085148607569186",
+          "deps": [
+            "@workspace/shared-enums"
+          ]
+        },
+        {
+          "file": "packages/shared-types/tsconfig.json",
+          "hash": "16022896144540171575"
+        }
+      ],
+      "web-e2e": [
+        {
+          "file": "apps/web-e2e/eslint.config.mjs",
+          "hash": "1172734138943286526",
+          "deps": [
+            "npm:eslint-plugin-playwright"
+          ]
+        },
+        {
+          "file": "apps/web-e2e/playwright.config.ts",
+          "hash": "6975108410158112420",
+          "deps": [
+            "npm:@playwright/test",
+            "npm:@nx/playwright",
+            "npm:@nx/devkit"
+          ]
+        },
+        {
+          "file": "apps/web-e2e/project.json",
+          "hash": "236892884893949848"
+        },
+        {
+          "file": "apps/web-e2e/src/example.spec.ts",
+          "hash": "16019101014373124625",
+          "deps": [
+            "npm:@playwright/test"
+          ]
+        },
+        {
+          "file": "apps/web-e2e/tsconfig.json",
+          "hash": "18107275616570252607"
+        }
+      ],
+      "@workspace/shared-config": [
+        {
+          "file": "packages/shared-config/package.json",
+          "hash": "11512784263383560657"
+        },
+        {
+          "file": "packages/shared-config/src/index.ts",
+          "hash": "8903319168609866940"
+        },
+        {
+          "file": "packages/shared-config/tsconfig.json",
+          "hash": "16022896144540171575"
         }
       ]
     }

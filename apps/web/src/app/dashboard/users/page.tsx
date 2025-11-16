@@ -36,12 +36,32 @@ function UsersManagementContent() {
       });
 
       if (response.success && response.data) {
-        setUsers(response.data.data);
-        setTotalPages(response.data.meta.totalPages);
-        setTotalCount(response.data.meta.totalCount);
+        // Handle the response structure - data could be array or PaginatedResponse
+        if (Array.isArray(response.data)) {
+          // Direct array response
+          setUsers(response.data);
+          setTotalPages(1);
+          setTotalCount(response.data.length);
+        } else if (response.data.data && Array.isArray(response.data.data)) {
+          // PaginatedResponse structure
+          setUsers(response.data.data);
+          setTotalPages(response.data.meta?.totalPages || 1);
+          setTotalCount(response.data.meta?.totalCount || response.data.data.length);
+        } else if (response.meta) {
+          // Data is in response.data directly, meta is separate
+          setUsers(Array.isArray(response.data) ? response.data : []);
+          setTotalPages(response.meta.totalPages || 1);
+          setTotalCount(response.meta.totalCount || 0);
+        } else {
+          // Fallback
+          setUsers([]);
+          setTotalPages(1);
+          setTotalCount(0);
+        }
       }
     } catch (error) {
       console.error('Failed to fetch users:', error);
+      setUsers([]);
     } finally {
       setLoading(false);
     }
