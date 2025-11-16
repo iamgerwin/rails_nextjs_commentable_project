@@ -51,11 +51,11 @@ export default function ResetPasswordPage() {
       setSuccess(false);
       setIsLoading(true);
 
-      const response = await authService.resetPassword(
+      const response = await authService.resetPassword({
         token,
-        data.password,
-        data.passwordConfirmation
-      );
+        password: data.password,
+        passwordConfirmation: data.passwordConfirmation,
+      });
 
       if (response.success) {
         setSuccess(true);

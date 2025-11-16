@@ -23,12 +23,16 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npx nx run web:start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    cwd: workspaceRoot,
-  },
+  // In CI, the Rails server is already running on port 3000
+  // In local dev, this will start the Next.js dev server
+  ...(process.env.CI ? {} : {
+    webServer: {
+      command: 'npx nx run web:start',
+      url: 'http://localhost:3000',
+      reuseExistingServer: !process.env.CI,
+      cwd: workspaceRoot,
+    },
+  }),
   projects: [
     {
       name: 'chromium',
