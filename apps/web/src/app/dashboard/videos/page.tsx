@@ -46,8 +46,8 @@ function VideosManagementContent() {
           setTotalCount(response.data.meta?.totalCount || response.data.data.length);
         } else if (response.meta) {
           setVideos(Array.isArray(response.data) ? response.data : []);
-          setTotalPages(response.meta.totalPages || 1);
-          setTotalCount(response.meta.totalCount || 0);
+          setTotalPages((response.meta.totalPages as number) || 1);
+          setTotalCount((response.meta.totalCount as number) || 0);
         } else {
           setVideos([]);
           setTotalPages(1);

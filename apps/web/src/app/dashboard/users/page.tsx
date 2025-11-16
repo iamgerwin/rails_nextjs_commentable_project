@@ -50,8 +50,8 @@ function UsersManagementContent() {
         } else if (response.meta) {
           // Data is in response.data directly, meta is separate
           setUsers(Array.isArray(response.data) ? response.data : []);
-          setTotalPages(response.meta.totalPages || 1);
-          setTotalCount(response.meta.totalCount || 0);
+          setTotalPages((response.meta.totalPages as number) || 1);
+          setTotalCount((response.meta.totalCount as number) || 0);
         } else {
           // Fallback
           setUsers([]);
