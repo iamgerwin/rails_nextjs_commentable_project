@@ -32,7 +32,6 @@ function UsersManagementContent() {
       const response = await usersService.getUsers({
         page,
         perPage,
-        search: searchQuery || undefined,
       });
 
       if (response.success && response.data) {
