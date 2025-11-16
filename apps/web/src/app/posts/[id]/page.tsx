@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { ReactionButtons } from '@/components/reactions';
 import { CommentSection } from '@/components/comments';
 import { postsService } from '@/services/posts.service';
-import { Post, PostStatus, PostVisibility } from '@workspace/shared-types';
+import { Post, PostStatus, PostVisibility, ReactableType, CommentableType } from '@workspace/shared-types';
 import { ArrowLeft, Eye, Calendar, User, Clock } from 'lucide-react';
 
 export default function PostDetailPage() {
@@ -176,12 +176,12 @@ export default function PostDetailPage() {
 
           {/* Reactions */}
           <div className="border-y py-4">
-            <ReactionButtons reactableType="Post" reactableId={post.id} showCounts={true} />
+            <ReactionButtons reactableType={ReactableType.POST} reactableId={post.id} showCounts={true} />
           </div>
 
           {/* Comments */}
           <div className="pt-6">
-            <CommentSection commentableType="Post" commentableId={post.id} />
+            <CommentSection commentableType={CommentableType.POST} commentableId={post.id} />
           </div>
         </article>
       </div>

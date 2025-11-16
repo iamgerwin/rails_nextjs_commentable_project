@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { ReactionButtons } from '@/components/reactions';
 import { CommentSection } from '@/components/comments';
 import { videosService } from '@/services/videos.service';
-import { Video, VideoStatus, VideoVisibility } from '@workspace/shared-types';
+import { Video, VideoStatus, VideoVisibility, ReactableType, CommentableType } from '@workspace/shared-types';
 import { ArrowLeft, Eye, Calendar, User, Clock } from 'lucide-react';
 
 export default function VideoDetailPage() {
@@ -178,12 +178,12 @@ export default function VideoDetailPage() {
 
           {/* Reactions */}
           <div className="border-y py-4">
-            <ReactionButtons reactableType="Video" reactableId={video.id} showCounts={true} />
+            <ReactionButtons reactableType={ReactableType.VIDEO} reactableId={video.id} showCounts={true} />
           </div>
 
           {/* Comments */}
           <div className="pt-6">
-            <CommentSection commentableType="Video" commentableId={video.id} />
+            <CommentSection commentableType={CommentableType.VIDEO} commentableId={video.id} />
           </div>
         </div>
       </div>
