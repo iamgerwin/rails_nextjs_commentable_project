@@ -52,8 +52,10 @@ export default function VideoDetailPage() {
   const getStatusBadge = (status: VideoStatus) => {
     const variants: Record<VideoStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       [VideoStatus.DRAFT]: 'secondary',
+      [VideoStatus.PROCESSING]: 'outline',
       [VideoStatus.PUBLISHED]: 'default',
       [VideoStatus.ARCHIVED]: 'outline',
+      [VideoStatus.DELETED]: 'destructive',
     };
 
     return <Badge variant={variants[status]}>{status}</Badge>;
