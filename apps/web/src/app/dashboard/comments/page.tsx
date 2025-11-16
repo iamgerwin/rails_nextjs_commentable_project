@@ -169,8 +169,8 @@ function CommentsModerationContent() {
           <Eye className="mr-2 h-4 w-4" />
           View Comment
         </DropdownMenuItem>
-        {comment.status !== CommentStatus.APPROVED && (
-          <DropdownMenuItem onClick={() => handleUpdateStatus(comment.id, CommentStatus.APPROVED)}>
+        {comment.status !== CommentStatus.ACTIVE && (
+          <DropdownMenuItem onClick={() => handleUpdateStatus(comment.id, CommentStatus.ACTIVE)}>
             <Check className="mr-2 h-4 w-4" />
             Approve
           </DropdownMenuItem>
