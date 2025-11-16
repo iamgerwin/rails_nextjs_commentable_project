@@ -2,6 +2,8 @@
 
 # Post model for blog posts and articles
 class Post < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 

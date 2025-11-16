@@ -1,15 +1,23 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { User } from '@workspace/shared-types';
+import { User, ApiResponse } from '@workspace/shared-types';
 import { TokenManager } from '@/lib/api-client';
+
+interface AuthResponse {
+  user: User;
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
+  login: (email: string, password: string) => Promise<ApiResponse<AuthResponse>>;
+  register: (data: RegisterData) => Promise<ApiResponse<AuthResponse>>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }

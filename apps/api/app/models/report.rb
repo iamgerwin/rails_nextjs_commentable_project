@@ -2,6 +2,8 @@
 
 # Report model for content and user reporting
 class Report < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 

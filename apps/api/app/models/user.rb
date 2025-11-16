@@ -3,6 +3,8 @@
 # User model for authentication and authorization
 # Supports soft delete via paranoia gem
 class User < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 

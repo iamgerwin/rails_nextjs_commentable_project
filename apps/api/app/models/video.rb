@@ -2,6 +2,8 @@
 
 # Video model for video content management
 class Video < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 

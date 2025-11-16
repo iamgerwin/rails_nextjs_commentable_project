@@ -2,6 +2,8 @@
 
 # Reaction model for polymorphic reactions (like, dislike, love, clap)
 class Reaction < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 

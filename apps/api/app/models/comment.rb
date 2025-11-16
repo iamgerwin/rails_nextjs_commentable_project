@@ -2,6 +2,8 @@
 
 # Comment model for polymorphic comments on videos and posts
 class Comment < ApplicationRecord
+  include Auditable
+
   # Use string IDs (UUIDs)
   before_create :generate_uuid
 
