@@ -204,12 +204,12 @@ function VideosManagementContent() {
               Manage all videos across the platform
             </p>
           </div>
-          <Button asChild>
-            <Link href="/dashboard/videos/new">
+          <Link href="/dashboard/videos/new">
+            <Button>
               <Plus className="mr-2 h-4 w-4" />
               Upload Video
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
 
         <DataTable

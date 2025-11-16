@@ -198,12 +198,12 @@ function PostsManagementContent() {
               Manage all blog posts across the platform
             </p>
           </div>
-          <Button asChild>
-            <Link href="/dashboard/posts/new">
+          <Link href="/dashboard/posts/new">
+            <Button>
               <Plus className="mr-2 h-4 w-4" />
               Create Post
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
 
         <DataTable
