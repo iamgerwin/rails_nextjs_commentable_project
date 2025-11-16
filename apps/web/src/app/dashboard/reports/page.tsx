@@ -103,7 +103,7 @@ function ReportsManagementContent() {
       [ReportStatus.PENDING]: 'destructive',
       [ReportStatus.UNDER_REVIEW]: 'secondary',
       [ReportStatus.RESOLVED]: 'default',
-      [ReportStatus.DISMISSED]: 'outline',
+      [ReportStatus.REJECTED]: 'outline',
     };
 
     return <Badge variant={variants[status]}>{status.replace('_', ' ')}</Badge>;
@@ -200,7 +200,7 @@ function ReportsManagementContent() {
             Resolve Report
           </DropdownMenuItem>
         )}
-        {report.status !== ReportStatus.DISMISSED && (
+        {report.status !== ReportStatus.REJECTED && (
           <DropdownMenuItem onClick={() => handleReject(report.id)}>
             <XCircle className="mr-2 h-4 w-4" />
             Dismiss Report
