@@ -97,8 +97,9 @@ function UsersManagementContent() {
   const getStatusBadge = (status: UserStatus) => {
     const variants: Record<UserStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       [UserStatus.ACTIVE]: 'default',
+      [UserStatus.INACTIVE]: 'secondary',
       [UserStatus.SUSPENDED]: 'destructive',
-      [UserStatus.PENDING]: 'secondary',
+      [UserStatus.DELETED]: 'outline',
     };
 
     return <Badge variant={variants[status]}>{status}</Badge>;
