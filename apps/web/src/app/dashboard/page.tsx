@@ -16,7 +16,7 @@ function DashboardContent() {
         {/* Welcome Section */}
         <div>
           <h2 className="text-3xl font-bold tracking-tight">
-            Welcome back, {user?.first_name}!
+            Welcome back, {user?.firstName}!
           </h2>
           <p className="text-muted-foreground">
             Here&apos;s what&apos;s happening with your content today.

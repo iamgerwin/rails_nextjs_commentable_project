@@ -82,12 +82,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  {getInitials(user?.first_name, user?.last_name)}
+                  {getInitials(user?.firstName, user?.lastName)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 overflow-hidden">
                 <p className="truncate text-sm font-medium">
-                  {user?.first_name} {user?.last_name}
+                  {user?.firstName} {user?.lastName}
                 </p>
                 <Badge variant="secondary" className="text-xs">
                   {user?.role}
@@ -120,7 +120,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar className="h-10 w-10">
                   <AvatarFallback className="bg-primary text-primary-foreground">
-                    {getInitials(user?.first_name, user?.last_name)}
+                    {getInitials(user?.firstName, user?.lastName)}
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -129,7 +129,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {user?.first_name} {user?.last_name}
+                    {user?.firstName} {user?.lastName}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
                     {user?.email}
