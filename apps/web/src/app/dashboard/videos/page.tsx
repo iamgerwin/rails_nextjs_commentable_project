@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ProtectedRoute } from '@/components/auth/protected-route';
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
 import { DataTable, DataTableColumn } from '@/components/data-table';
@@ -170,13 +171,17 @@ function VideosManagementContent() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          <Eye className="mr-2 h-4 w-4" />
-          View Video
+        <DropdownMenuItem asChild>
+          <Link href={`/videos/${video.id}`} className="cursor-pointer">
+            <Eye className="mr-2 h-4 w-4" />
+            View Video
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Video
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/videos/${video.id}/edit`} className="cursor-pointer">
+            <Edit className="mr-2 h-4 w-4" />
+            Edit Video
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive"
@@ -199,9 +204,11 @@ function VideosManagementContent() {
               Manage all videos across the platform
             </p>
           </div>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Upload Video
+          <Button asChild>
+            <Link href="/dashboard/videos/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Upload Video
+            </Link>
           </Button>
         </div>
 

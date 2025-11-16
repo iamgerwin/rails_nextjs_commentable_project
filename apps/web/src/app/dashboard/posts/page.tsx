@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ProtectedRoute } from '@/components/auth/protected-route';
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout';
 import { DataTable, DataTableColumn } from '@/components/data-table';
@@ -164,13 +165,17 @@ function PostsManagementContent() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          <Eye className="mr-2 h-4 w-4" />
-          View Post
+        <DropdownMenuItem asChild>
+          <Link href={`/posts/${post.id}`} className="cursor-pointer">
+            <Eye className="mr-2 h-4 w-4" />
+            View Post
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Post
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/posts/${post.id}/edit`} className="cursor-pointer">
+            <Edit className="mr-2 h-4 w-4" />
+            Edit Post
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive"
@@ -193,9 +198,11 @@ function PostsManagementContent() {
               Manage all blog posts across the platform
             </p>
           </div>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Create Post
+          <Button asChild>
+            <Link href="/dashboard/posts/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Create Post
+            </Link>
           </Button>
         </div>
 
