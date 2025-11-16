@@ -85,6 +85,7 @@ function PostsManagementContent() {
       [PostStatus.DRAFT]: 'secondary',
       [PostStatus.PUBLISHED]: 'default',
       [PostStatus.ARCHIVED]: 'outline',
+      [PostStatus.DELETED]: 'destructive',
     };
 
     return <Badge variant={variants[status]}>{status}</Badge>;
