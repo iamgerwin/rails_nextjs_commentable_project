@@ -91,9 +91,9 @@ function CommentsModerationContent() {
 
   const getStatusBadge = (status: CommentStatus) => {
     const variants: Record<CommentStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-      [CommentStatus.APPROVED]: 'default',
-      [CommentStatus.PENDING]: 'secondary',
+      [CommentStatus.ACTIVE]: 'default',
       [CommentStatus.HIDDEN]: 'outline',
+      [CommentStatus.DELETED]: 'secondary',
       [CommentStatus.FLAGGED]: 'destructive',
     };
 
